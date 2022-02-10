@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Qwer\\source\\repos\\husoczkidani\\HLO5ZK_Szakdolgozat\\MinesweeperWithSolver\\MinesweeperWithSolver\\MinesweeperWithSolver.csproj": {}
+    "C:\\Users\\Qwer\\source\\repos\\husoczkidani\\HLO5ZK_Szakdolgozat\\MinesweeperWithSolver\\MinesweeperWithSolver\\MinesweeperWithSolver.WPF.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Qwer\\source\\repos\\husoczkidani\\HLO5ZK_Szakdolgozat\\MinesweeperWithSolver\\MinesweeperWithSolver\\MinesweeperWithSolver.csproj": {
+    "C:\\Users\\Qwer\\source\\repos\\husoczkidani\\HLO5ZK_Szakdolgozat\\MinesweeperWithSolver\\MinesweeperWithSolver\\MinesweeperWithSolver.WPF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Qwer\\source\\repos\\husoczkidani\\HLO5ZK_Szakdolgozat\\MinesweeperWithSolver\\MinesweeperWithSolver\\MinesweeperWithSolver.csproj",
-        "projectName": "MinesweeperWithSolver",
-        "projectPath": "C:\\Users\\Qwer\\source\\repos\\husoczkidani\\HLO5ZK_Szakdolgozat\\MinesweeperWithSolver\\MinesweeperWithSolver\\MinesweeperWithSolver.csproj",
+        "projectUniqueName": "C:\\Users\\Qwer\\source\\repos\\husoczkidani\\HLO5ZK_Szakdolgozat\\MinesweeperWithSolver\\MinesweeperWithSolver\\MinesweeperWithSolver.WPF.csproj",
+        "projectName": "MinesweeperWithSolver.WPF",
+        "projectPath": "C:\\Users\\Qwer\\source\\repos\\husoczkidani\\HLO5ZK_Szakdolgozat\\MinesweeperWithSolver\\MinesweeperWithSolver\\MinesweeperWithSolver.WPF.csproj",
         "packagesPath": "C:\\Users\\Qwer\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Qwer\\source\\repos\\husoczkidani\\HLO5ZK_Szakdolgozat\\MinesweeperWithSolver\\MinesweeperWithSolver\\obj\\",
         "projectStyle": "PackageReference",

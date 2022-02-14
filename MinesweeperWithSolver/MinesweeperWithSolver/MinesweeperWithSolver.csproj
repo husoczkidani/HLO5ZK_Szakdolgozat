@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Fonts\" />
   </ItemGroup>

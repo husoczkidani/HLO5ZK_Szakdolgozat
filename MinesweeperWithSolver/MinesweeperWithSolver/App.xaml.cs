@@ -18,7 +18,6 @@ namespace MinesweeperWithSolver
 
             IServiceProvider serviceProvider = CreateServiceProvider();
             Window window = serviceProvider.GetRequiredService<MainWindow>();
-
             window.Show();
         }
         private IServiceProvider CreateServiceProvider()

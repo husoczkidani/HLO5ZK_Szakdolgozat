@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace MinesweeperWithSolver.Views
 {
     /// <summary>
-    /// Interaction logic for GameBoardViewxaml.xaml
+    /// Interaction logic for GameBoardView.xaml
     /// </summary>
-    public partial class GameBoardViewxaml : UserControl
+    public partial class GameBoardView : UserControl
     {
-        public GameBoardViewxaml()
+        public GameBoardView()
         {
             InitializeComponent();
         }

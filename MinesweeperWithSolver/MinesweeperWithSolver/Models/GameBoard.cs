@@ -10,14 +10,17 @@ namespace MinesweeperWithSolver.Models
         public int Width { get; set; }
         public int Height { get; set; }
         public int MineCount { get; set; }
+        public string PlayerName { get; set; }
         public List<Tile> Tiles { get; set; }
         public GameStatus Status { get; set; }
+        public DateTime GameStartTime { get; set; }
+        public DateTime GameEndTime { get; set; }
 
         public GameBoard()
         {
         }
 
-        public void InitializeGameBoard(int size)
+        public void InitializeGameBoard(int size, string playerName)
         {
 
             Width = size;
@@ -34,8 +37,10 @@ namespace MinesweeperWithSolver.Models
                     MineCount = 90;
                     break;
             }
+            PlayerName = playerName;
             Tiles = CreateTiles(size);
             Status = GameStatus.InProgress;
+            GameStartTime = DateTime.Now;
         }
 
         public List<Tile> CreateTiles(int boardSize)

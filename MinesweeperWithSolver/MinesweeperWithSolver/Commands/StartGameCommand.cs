@@ -30,10 +30,10 @@ namespace MinesweeperWithSolver.Commands
 
         public void Execute(object parameter)
         {
-            var userName = _menuViewModel.Playername;
-            var difficulty = _menuViewModel.Difficulty;
+            var userName = _menuViewModel.Playername ?? "Player";
+            var difficulty = _menuViewModel.Difficulty == 0 ? 9 : _menuViewModel.Difficulty;
 
-            _gameBoard.InitializeGameBoard(difficulty);
+            _gameBoard.InitializeGameBoard(difficulty, userName);
             _renavigator.Renavigate();
         }
     }

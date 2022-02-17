@@ -20,7 +20,7 @@ namespace MinesweeperWithSolver.ViewModels
             set
             {
                 
-                _playername = value ?? "Player";
+                _playername = value;
                 OnPropertyChanged(nameof(Playername));
             }
         }

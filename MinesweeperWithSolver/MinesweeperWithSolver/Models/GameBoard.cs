@@ -13,11 +13,27 @@ namespace MinesweeperWithSolver.Models
         public List<Tile> Tiles { get; set; }
         public GameStatus Status { get; set; }
 
-        public GameBoard(int size, int mines)
+        public GameBoard()
         {
+        }
+
+        public void InitializeGameBoard(int size)
+        {
+
             Width = size;
             Height = size;
-            MineCount = mines;
+            switch (size)
+            {
+                case 9:
+                    MineCount = 10;
+                    break;
+                case 16:
+                    MineCount = 40;
+                    break;
+                case 21:
+                    MineCount = 90;
+                    break;
+            }
             Tiles = CreateTiles(size);
             Status = GameStatus.InProgress;
         }

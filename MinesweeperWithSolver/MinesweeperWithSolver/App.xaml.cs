@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using MinesweeperWithSolver.ViewModels;
 using MinesweeperWithSolver.ViewModels.Factories;
@@ -26,15 +27,28 @@ namespace MinesweeperWithSolver
 
             services.AddSingleton<IRootViewModelFactory, RootViewModelFactory>();
             services.AddSingleton<INavigator, Navigator>();
+            services.AddSingleton<GameBoard, GameBoard>();
+            services.AddSingleton<Tile, Tile>();
 
             services.AddSingleton<CreateViewModel<MenuViewModel>>(s =>
             {
-                return () => new MenuViewModel();
+                return () => new MenuViewModel(
+                    new ViewModelFactoryRenavigator<GameBoardViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<GameBoardViewModel>>()),
+                    new ViewModelFactoryRenavigator<LeaderBoardViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<LeaderBoardViewModel>>()),
+                    s.GetRequiredService<GameBoard>());
             });
 
             services.AddSingleton<CreateViewModel<GameBoardViewModel>>(s =>
             {
-                return () => new GameBoardViewModel();
+                return () => new GameBoardViewModel(
+                    new ViewModelFactoryRenavigator<EndScreenViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<EndScreenViewModel>>()),
+                    s.GetRequiredService<GameBoard>());
             });
 
             services.AddSingleton<CreateViewModel<LeaderBoardViewModel>>(s =>

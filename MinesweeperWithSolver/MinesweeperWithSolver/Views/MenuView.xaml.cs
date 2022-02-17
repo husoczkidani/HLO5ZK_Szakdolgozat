@@ -22,5 +22,9 @@ namespace MinesweeperWithSolver.Views
         {
             InitializeComponent();
         }
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace MinesweeperWithSolver.Models
         public int X_pos { get; set; }
         public int Y_pos { get; set; }
         public TileState State { get; set; }
+        public int AdjacentMines { get; set; }
 
         public Tile(int id, int x, int y)
         {

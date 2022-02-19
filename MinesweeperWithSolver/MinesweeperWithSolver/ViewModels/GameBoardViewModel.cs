@@ -1,9 +1,11 @@
 ﻿using Caliburn.Micro;
+using MinesweeperWithSolver.Commands;
 using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 
 namespace MinesweeperWithSolver.ViewModels
 {
@@ -29,12 +31,17 @@ namespace MinesweeperWithSolver.ViewModels
             }
         }
 
+        public ICommand FlagCommand { get; }
+        public ICommand RevealCommand { get; }
+
         public BindableCollection<Tile> GameBoardTiles { get; set; }
         public GameBoardViewModel(IRenavigator endScreenRenavigator, GameBoard gameBoard)
         {
             Width = gameBoard.Width * 32;
             Height = gameBoard.Height * 32 + 100;
             GameBoardTiles = new BindableCollection<Tile>(gameBoard.Tiles);
+            FlagCommand = new FlagCommand(this, gameBoard, endScreenRenavigator);
+            RevealCommand = new RevealCommand(this, gameBoard, endScreenRenavigator);
         }
     }
 }

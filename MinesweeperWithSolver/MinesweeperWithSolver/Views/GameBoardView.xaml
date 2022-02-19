@@ -16,7 +16,7 @@
         <Grid Grid.Row="0" Height="100" Width="{Binding Width}" Background="blue">
             
         </Grid>
-        <ItemsControl ItemsSource="{Binding GameBoardTiles}" Grid.Row="1">
+        <ItemsControl x:Name="Tiles" ItemsSource="{Binding GameBoardTiles}" Grid.Row="1">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel/>
@@ -24,8 +24,17 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="black" BorderThickness="1">
-                        <Button Width="30" Height="30" Content="{Binding X_pos}"/>
+                    <Border BorderBrush="black" BorderThickness="1" Background="LightGray">
+                        <Button Width="30" Height="30" 
+                                Content="{Binding AdjacentMines}" 
+                                ToolTip="{Binding AdjacentMines}" 
+                                Foreground="Black" Background="LightGray"
+                                Tag="{Binding BindsDirectlyToSource=True}">
+                            <Button.InputBindings>
+                                <MouseBinding Gesture="LeftClick" Command="{Binding ElementName=Tiles, Path=DataContext.RevealCommand}" CommandParameter="{Binding}"/>
+                                <MouseBinding Gesture="RightClick" Command="{Binding ElementName=Tiles, Path=DataContext.FlagCommand}" CommandParameter="{Binding}"/>
+                            </Button.InputBindings>
+                        </Button>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

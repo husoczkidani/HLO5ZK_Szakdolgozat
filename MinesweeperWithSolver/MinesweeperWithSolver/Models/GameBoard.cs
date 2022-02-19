@@ -52,6 +52,7 @@ namespace MinesweeperWithSolver.Models
                 for(int y = 0; y<boardSize; y++)
                 {
                     tiles.Add(new Tile(tileId, x, y));
+                    tileId++;
                 }
             }
             return tiles;

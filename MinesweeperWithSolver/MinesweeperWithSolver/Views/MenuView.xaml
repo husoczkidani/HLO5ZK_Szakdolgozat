@@ -50,15 +50,15 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <RadioButton Content="Easy" GroupName="Difficulty" Margin="5 0" FontSize="20" Grid.Column="0"
-                                IsChecked="{Binding Path=Difficulty, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=9}"
+                                IsChecked="{Binding Path=Difficulty, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=1}"
                                 Foreground="Black"
                                 Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}" />
                         <RadioButton Content="Normal" GroupName="Difficulty" Margin="5 0" FontSize="20" Grid.Column="1"
-                                IsChecked="{Binding Path=Difficulty, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=16}"
+                                IsChecked="{Binding Path=Difficulty, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=2}"
                                 Foreground="Black"
                                 Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}" />
                         <RadioButton Content="Hard" GroupName="Difficulty" Margin="5 0" FontSize="20" Grid.Column="2"
-                                IsChecked="{Binding Path=Difficulty, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=21}"
+                                IsChecked="{Binding Path=Difficulty, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=3}"
                                 Foreground="Black"
                                 Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}" />
                     </Grid>

@@ -2,14 +2,12 @@
 using MinesweeperWithSolver.Commands;
 using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace MinesweeperWithSolver.ViewModels
 {
-    public class GameBoardViewModel : BaseViewModel 
+    public class GameBoardViewModel : BaseViewModel
     {
         private int _width;
         public int Width { 
@@ -31,14 +29,22 @@ namespace MinesweeperWithSolver.ViewModels
             }
         }
 
+        public BindableCollection<Tile> _gameBoardTiles;
+        public BindableCollection<Tile> GameBoardTiles {
+            get => _gameBoardTiles;
+            set
+            {
+                _gameBoardTiles = value;
+                OnPropertyChanged(nameof(GameBoardTiles));
+            }
+        }
+
         public ICommand FlagCommand { get; }
         public ICommand RevealCommand { get; }
-
-        public BindableCollection<Tile> GameBoardTiles { get; set; }
         public GameBoardViewModel(IRenavigator endScreenRenavigator, GameBoard gameBoard)
         {
-            Width = gameBoard.Width * 32;
-            Height = gameBoard.Height * 32 + 100;
+            Width = gameBoard.Width * 30;
+            Height = gameBoard.Height * 30 + 100;
             GameBoardTiles = new BindableCollection<Tile>(gameBoard.Tiles);
             FlagCommand = new FlagCommand(this, gameBoard, endScreenRenavigator);
             RevealCommand = new RevealCommand(this, gameBoard, endScreenRenavigator);

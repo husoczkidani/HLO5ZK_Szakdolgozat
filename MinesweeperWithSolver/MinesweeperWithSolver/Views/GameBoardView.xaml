@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:MinesweeperWithSolver.Views"
              mc:Ignorable="d" 
              Width="{Binding Width}" MinWidth="{Binding Width}" MaxWidth="{Binding Width}"
@@ -24,18 +25,16 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="black" BorderThickness="1" Background="LightGray">
-                        <Button Width="30" Height="30" 
-                                Content="{Binding AdjacentMines}" 
-                                ToolTip="{Binding AdjacentMines}" 
-                                Foreground="Black" Background="LightGray"
-                                Tag="{Binding BindsDirectlyToSource=True}">
+                        <Button Width="30" Height="30"
+                                BorderThickness="0"
+                                Style="{x:Null}"
+                                Content="{Binding AdjacentMines}">
+                            
                             <Button.InputBindings>
-                                <MouseBinding Gesture="LeftClick" Command="{Binding ElementName=Tiles, Path=DataContext.RevealCommand}" CommandParameter="{Binding}"/>
+                                <MouseBinding Gesture="LeftClick" Command="{Binding ElementName=Tiles , Path=DataContext.RevealCommand}" CommandParameter="{Binding}"/>
                                 <MouseBinding Gesture="RightClick" Command="{Binding ElementName=Tiles, Path=DataContext.FlagCommand}" CommandParameter="{Binding}"/>
                             </Button.InputBindings>
                         </Button>
-                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

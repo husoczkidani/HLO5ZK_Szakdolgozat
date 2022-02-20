@@ -20,36 +20,41 @@ namespace MinesweeperWithSolver.Models
         {
         }
 
-        public void InitializeGameBoard(int size, string playerName)
+        public void InitializeGameBoard(int difficulty, string playerName)
         {
 
-            Width = size;
-            Height = size;
-            switch (size)
+            
+            switch (difficulty)
             {
-                case 9:
+                case 1:
+                    Width = 9;
+                    Height = 9;
                     MineCount = 10;
                     break;
-                case 16:
+                case 2:
+                    Width = 16;
+                    Height = 16;
                     MineCount = 40;
                     break;
-                case 21:
-                    MineCount = 90;
+                case 3:
+                    Width = 30;
+                    Height = 16;
+                    MineCount = 99;
                     break;
             }
             PlayerName = playerName;
-            Tiles = CreateTiles(size);
+            Tiles = CreateTiles(Width, Height);
             Status = GameStatus.InProgress;
             GameStartTime = DateTime.Now;
         }
 
-        public List<Tile> CreateTiles(int boardSize)
+        public List<Tile> CreateTiles(int width, int height)
         {
             List<Tile> tiles = new List<Tile>();
             int tileId = 0;
-            for(int x = 0; x<boardSize; x++)
+            for(int x = 0; x< width; x++)
             {
-                for(int y = 0; y<boardSize; y++)
+                for(int y = 0; y< height; y++)
                 {
                     tiles.Add(new Tile(tileId, x, y));
                     tileId++;

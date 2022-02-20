@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\covered.png" />
+    <None Remove="Resources\Images\eight.png" />
+    <None Remove="Resources\Images\five.png" />
+    <None Remove="Resources\Images\four.png" />
     <None Remove="Resources\Images\minesweeper_title.png" />
+    <None Remove="Resources\Images\one.png" />
+    <None Remove="Resources\Images\seven.png" />
+    <None Remove="Resources\Images\six.png" />
+    <None Remove="Resources\Images\three.png" />
+    <None Remove="Resources\Images\two.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,7 +27,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\covered.png" />
+    <Resource Include="Resources\Images\eight.png" />
+    <Resource Include="Resources\Images\five.png" />
+    <Resource Include="Resources\Images\four.png" />
     <Resource Include="Resources\Images\minesweeper_title.png" />
+    <Resource Include="Resources\Images\one.png" />
+    <Resource Include="Resources\Images\seven.png" />
+    <Resource Include="Resources\Images\six.png" />
+    <Resource Include="Resources\Images\three.png" />
+    <Resource Include="Resources\Images\two.png" />
   </ItemGroup>
 
 </Project>

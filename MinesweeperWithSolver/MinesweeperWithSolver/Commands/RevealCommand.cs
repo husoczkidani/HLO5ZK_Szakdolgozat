@@ -31,11 +31,15 @@ namespace MinesweeperWithSolver.Commands
 
         public void Execute(object parameter)
         {
-            Tile parameterTile = (Tile)parameter;
-            var tile = _gameBoard.Tiles
-                .Where(t => t.tileID == parameterTile.tileID)
+            Tile selectedTile = (Tile)parameter;
+            var classTile = _gameBoard.Tiles
+                .Where(t => t.tileID == selectedTile.tileID)
                 .First();
-            tile.AdjacentMines = 5;
+            classTile.AdjacentMines = 5;
+            var gameTile = _gameBoardViewModel.GameBoardTiles
+                .Where(t => t.tileID == selectedTile.tileID)
+                .First();
+            gameTile = classTile;
         }
     }
 }

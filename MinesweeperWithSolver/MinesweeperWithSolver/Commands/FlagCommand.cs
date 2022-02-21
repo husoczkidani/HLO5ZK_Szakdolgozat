@@ -2,8 +2,8 @@
 using MinesweeperWithSolver.State;
 using MinesweeperWithSolver.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace MinesweeperWithSolver.Commands
@@ -30,7 +30,12 @@ namespace MinesweeperWithSolver.Commands
 
         public void Execute(object parameter)
         {
-            Console.WriteLine(parameter.ToString());
+            Tile selectedTile = (Tile)parameter;
+            var classTile = _gameBoard.Tiles
+                .Where(t => t.tileID == selectedTile.tileID)
+                .First();
+            classTile.Image = "/Resources/Images/two.png";
+            _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }
 }

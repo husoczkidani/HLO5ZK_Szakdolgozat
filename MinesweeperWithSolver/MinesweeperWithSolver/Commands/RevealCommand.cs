@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace MinesweeperWithSolver.Commands
 {
@@ -35,11 +36,8 @@ namespace MinesweeperWithSolver.Commands
             var classTile = _gameBoard.Tiles
                 .Where(t => t.tileID == selectedTile.tileID)
                 .First();
-            classTile.AdjacentMines = 5;
-            var gameTile = _gameBoardViewModel.GameBoardTiles
-                .Where(t => t.tileID == selectedTile.tileID)
-                .First();
-            gameTile = classTile;
+            classTile.Image = "/Resources/Images/one.png";
+            _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }
 }

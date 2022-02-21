@@ -17,7 +17,7 @@
         <Grid Grid.Row="0" Height="100" Width="{Binding Width}" Background="blue">
             
         </Grid>
-        <ItemsControl x:Name="Tiles" ItemsSource="{Binding GameBoardTiles}" Grid.Row="1">
+        <ItemsControl x:Name="Tiles" ItemsSource="{Binding GameBoardTiles, Mode=OneWay, NotifyOnTargetUpdated=True}" Grid.Row="1">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel/>
@@ -27,12 +27,11 @@
                 <DataTemplate>
                         <Button Width="30" Height="30"
                                 BorderThickness="0"
-                                Style="{x:Null}"
-                                Content="{Binding AdjacentMines}">
-                            
+                                Style="{x:Null}">
+                            <Image Source="{Binding Image}"/>
                             <Button.InputBindings>
-                                <MouseBinding Gesture="LeftClick" Command="{Binding ElementName=Tiles , Path=DataContext.RevealCommand}" CommandParameter="{Binding}"/>
-                                <MouseBinding Gesture="RightClick" Command="{Binding ElementName=Tiles, Path=DataContext.FlagCommand}" CommandParameter="{Binding}"/>
+                                    <MouseBinding Gesture="LeftClick" Command="{Binding ElementName=Tiles , Path=DataContext.RevealCommand}" CommandParameter="{Binding}"/>
+                                    <MouseBinding Gesture="RightClick" Command="{Binding ElementName=Tiles, Path=DataContext.FlagCommand}" CommandParameter="{Binding}"/>
                             </Button.InputBindings>
                         </Button>
                 </DataTemplate>

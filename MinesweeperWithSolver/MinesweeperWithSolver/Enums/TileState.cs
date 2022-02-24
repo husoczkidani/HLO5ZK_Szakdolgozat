@@ -4,7 +4,7 @@
     {
         Blank,
         Revealed,
-        Bomb,
+        Mine,
         Flagged
     }
 }

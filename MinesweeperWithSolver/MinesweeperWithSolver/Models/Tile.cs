@@ -19,6 +19,7 @@ namespace MinesweeperWithSolver.Models
             tileID = id;
             X_pos = x;
             Y_pos = y;
+            State = TileState.Blank;
             Image = "/Resources/Images/covered.png";
         }
     }

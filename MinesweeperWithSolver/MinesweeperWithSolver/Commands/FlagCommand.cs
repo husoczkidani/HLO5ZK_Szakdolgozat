@@ -1,4 +1,5 @@
-﻿using MinesweeperWithSolver.Models;
+﻿using MinesweeperWithSolver.Enums;
+using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using MinesweeperWithSolver.ViewModels;
 using System;
@@ -25,16 +26,13 @@ namespace MinesweeperWithSolver.Commands
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return _gameBoard.Status == GameStatus.InProgress;
         }
 
         public void Execute(object parameter)
         {
             Tile selectedTile = (Tile)parameter;
-            var classTile = _gameBoard.Tiles
-                .Where(t => t.tileID == selectedTile.tileID)
-                .First();
-            classTile.Image = "/Resources/Images/two.png";
+            var classTile = _gameBoard.Tiles[selectedTile.tileID];
             _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }

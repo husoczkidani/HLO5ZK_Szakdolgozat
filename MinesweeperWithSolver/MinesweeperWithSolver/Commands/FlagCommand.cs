@@ -1,4 +1,5 @@
-﻿using MinesweeperWithSolver.Models;
+﻿using MinesweeperWithSolver.Enums;
+using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using MinesweeperWithSolver.ViewModels;
 using System;
@@ -25,7 +26,7 @@ namespace MinesweeperWithSolver.Commands
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return _gameBoard.Status == GameStatus.InProgress;
         }
 
         public void Execute(object parameter)

@@ -9,6 +9,7 @@ namespace MinesweeperWithSolver.Models
 {
     public class GameBoard
     {
+        public bool IsItFirstMove { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public int MineCount { get; set; }
@@ -20,12 +21,12 @@ namespace MinesweeperWithSolver.Models
 
         public GameBoard()
         {
+            Status = GameStatus.InProgress;
+            IsItFirstMove = true;
         }
 
         public void InitializeGameBoard(int difficulty, string playerName)
         {
-
-            
             switch (difficulty)
             {
                 case 1:
@@ -46,7 +47,6 @@ namespace MinesweeperWithSolver.Models
             }
             PlayerName = playerName;
             Tiles = CreateTiles(Width, Height);
-            Status = GameStatus.InProgress;
             GameStartTime = DateTime.Now;
         }
 
@@ -64,9 +64,48 @@ namespace MinesweeperWithSolver.Models
             }
             return tiles;
         }
-
-        public void FirstMove(int x, int y, Random rand)
+        public Tile GetTile(int x, int y)
         {
+            return Tiles.Where(t => t.X_pos == x && t.Y_pos == y).Single();
+        }
+
+        public List<Tile> GetNeighbors(int x, int y)
+        {
+            return GetNeighbors(x, y, 1);
+        }
+
+        public List<Tile> GetNeighbors(int x, int y, int depth)
+        {
+            var nearbyTiles = Tiles
+                .Where(t =>
+                        t.X_pos >= (x - depth) && t.X_pos <= (x + depth)
+                        && t.Y_pos >= (y - depth) && t.Y_pos <= (y + depth)
+                    );
+            var currentTile = Tiles.Where(t => t.X_pos == x && t.Y_pos == y);
+            return nearbyTiles.Except(currentTile).ToList();
+        }
+
+        public void SetImage(Tile tile)
+        {
+            switch (tile.State)
+            {
+                case TileState.Mine:
+                    tile.Image = @"/Resources/Images/mine.png";
+                    break;
+                case TileState.Flagged:
+                    tile.Image = @"/Resources/Images/flag.png";
+                    break;
+                default:
+                    tile.Image = @"/Resources/Images/" + tile.AdjacentMines + ".png";
+                    break;
+            }
+        }
+
+        public void FirstMove(int x, int y)
+        {
+            Random rand = new Random();
+            IsItFirstMove = false;
+
             var depth = 0.125 * Width;
             var neighbors = GetNeighbors(x, y, (int)depth);
             neighbors.Add(GetTile(x, y));
@@ -74,14 +113,11 @@ namespace MinesweeperWithSolver.Models
             var mineList = Tiles
                         .Except(neighbors)
                         .OrderBy(t => rand.Next());
+
             var mineTiles = mineList
                         .Take(MineCount)
                         .ToList()
-                        .Select(t => new
-                        {
-                            t.X_pos,
-                            t.Y_pos
-                        });
+                        .Select(t => new { t.X_pos, t.Y_pos });
 
             foreach (var mineTile in mineTiles)
             {
@@ -96,25 +132,44 @@ namespace MinesweeperWithSolver.Models
             }
         }
 
-        public Tile GetTile(int x, int y)
+        public void RevealZeros(int x, int y)
         {
-            return Tiles.Where(t => t.X_pos == x && t.Y_pos == y).Single();
+            var neighbors = GetNeighbors(x, y)
+                            .Where(t => t.State == TileState.Blank);
+
+            foreach (var neightbor in neighbors)
+            {
+                neightbor.State = TileState.Revealed;
+                SetImage(neightbor);
+
+                if ( neightbor.AdjacentMines == 0)
+                {
+                    RevealZeros(neightbor.X_pos, neightbor.Y_pos);
+                }
+            }
         }
 
-        public List<Tile> GetNeighbors(int x, int y)
+        public void RevealTile(int x, int y)
         {
-            return GetNeighbors(x, y, 1);
+            var selected = Tiles.First(t => t.X_pos == x && t.Y_pos == y);
+            SetImage(selected);
+
+            if(selected.State == TileState.Mine)
+            {
+                Status = GameStatus.Failed;
+            }
+            selected.State = TileState.Revealed;
+
+            if ((selected.State != TileState.Mine || selected.State != TileState.Flagged) && selected.AdjacentMines == 0)
+            {
+                RevealZeros(x, y);
+            }
+
+            if(selected.State != TileState.Mine)
+            {
+
+            }
         }
 
-        public List<Tile> GetNeighbors(int x, int y, int depth)
-        {
-            var nearbyTiles = Tiles
-                .Where(t => 
-                        t.X_pos >= (x - depth) && t.X_pos <= (x + depth)
-                        && t.Y_pos >= (y-depth) && t.Y_pos <= (y+depth)
-                    );
-            var currentTile = Tiles.Where(t => t.X_pos == x && t.Y_pos == y);
-            return nearbyTiles.Except(currentTile).ToList();
-        }
     }
 }

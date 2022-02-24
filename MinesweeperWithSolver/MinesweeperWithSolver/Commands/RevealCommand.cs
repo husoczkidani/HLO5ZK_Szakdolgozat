@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Linq;
 using System.Collections.ObjectModel;
+using MinesweeperWithSolver.Enums;
 
 namespace MinesweeperWithSolver.Commands
 {
@@ -27,13 +28,18 @@ namespace MinesweeperWithSolver.Commands
 
         public bool CanExecute(object parameter)
         {
+            //return _gameBoard.Status == GameStatus.InProgress;
             return true;
         }
 
         public void Execute(object parameter)
         {
             Tile selectedTile = (Tile)parameter;
-            var classTile = _gameBoard.Tiles[selectedTile.tileID];
+            if (_gameBoard.IsItFirstMove)
+            {
+                _gameBoard.FirstMove(selectedTile.X_pos, selectedTile.Y_pos);
+            }
+            _gameBoard.RevealTile(selectedTile.X_pos, selectedTile.Y_pos);
             _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }

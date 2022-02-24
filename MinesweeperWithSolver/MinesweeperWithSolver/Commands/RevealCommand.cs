@@ -33,10 +33,7 @@ namespace MinesweeperWithSolver.Commands
         public void Execute(object parameter)
         {
             Tile selectedTile = (Tile)parameter;
-            var classTile = _gameBoard.Tiles
-                .Where(t => t.tileID == selectedTile.tileID)
-                .First();
-            classTile.Image = "/Resources/Images/one.png";
+            var classTile = _gameBoard.Tiles[selectedTile.tileID];
             _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }

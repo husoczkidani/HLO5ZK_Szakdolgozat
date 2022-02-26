@@ -4,7 +4,6 @@
     {
         Blank,
         Revealed,
-        Mine,
-        Flagged
+        Mine
     }
 }

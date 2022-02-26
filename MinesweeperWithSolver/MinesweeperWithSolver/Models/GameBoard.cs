@@ -19,12 +19,6 @@ namespace MinesweeperWithSolver.Models
         public DateTime GameStartTime { get; set; }
         public DateTime GameEndTime { get; set; }
 
-        public GameBoard()
-        {
-            Status = GameStatus.InProgress;
-            IsItFirstMove = true;
-        }
-
         public void InitializeGameBoard(int difficulty, string playerName)
         {
             switch (difficulty)
@@ -48,6 +42,8 @@ namespace MinesweeperWithSolver.Models
             PlayerName = playerName;
             Tiles = CreateTiles(Width, Height);
             GameStartTime = DateTime.Now;
+            Status = GameStatus.InProgress;
+            IsItFirstMove = true;
         }
 
         public List<Tile> CreateTiles(int width, int height)
@@ -155,6 +151,7 @@ namespace MinesweeperWithSolver.Models
 
             if(selected.State == TileState.Mine)
             {
+                GameEndTime = DateTime.Now;
                 Status = GameStatus.Failed;
             }
             else

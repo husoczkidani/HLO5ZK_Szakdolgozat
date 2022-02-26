@@ -32,7 +32,11 @@ namespace MinesweeperWithSolver.Commands
         public void Execute(object parameter)
         {
             Tile selectedTile = (Tile)parameter;
-            var classTile = _gameBoard.Tiles[selectedTile.tileID];
+            if (_gameBoard.IsItFirstMove)
+            {
+                _gameBoard.FirstMove(selectedTile.X_pos, selectedTile.Y_pos);
+            }
+            _gameBoard.FlagTile(selectedTile.X_pos, selectedTile.Y_pos);
             _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }

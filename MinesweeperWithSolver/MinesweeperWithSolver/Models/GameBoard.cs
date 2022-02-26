@@ -54,9 +54,9 @@ namespace MinesweeperWithSolver.Models
         {
             var tiles = new List<Tile>();
             int tileId = 0;
-            for(int x = 0; x< width; x++)
+            for(int x = 0; x< height; x++)
             {
-                for(int y = 0; y< height; y++)
+                for(int y = 0; y< width; y++)
                 {
                     tiles.Add(new Tile(tileId, x, y));
                     tileId++;
@@ -92,8 +92,8 @@ namespace MinesweeperWithSolver.Models
                 case TileState.Mine:
                     tile.Image = @"/Resources/Images/mine.png";
                     break;
-                case TileState.Flagged:
-                    tile.Image = @"/Resources/Images/flag.png";
+                case TileState.Blank:
+                    tile.Image = @"/Resources/Images/covered.png";
                     break;
                 default:
                     tile.Image = @"/Resources/Images/" + tile.AdjacentMines + ".png";
@@ -152,15 +152,19 @@ namespace MinesweeperWithSolver.Models
         public void RevealTile(int x, int y)
         {
             var selected = Tiles.First(t => t.X_pos == x && t.Y_pos == y);
-            SetImage(selected);
 
             if(selected.State == TileState.Mine)
             {
                 Status = GameStatus.Failed;
             }
-            selected.State = TileState.Revealed;
+            else
+            {
+                selected.State = TileState.Revealed;
+            }
 
-            if ((selected.State != TileState.Mine || selected.State != TileState.Flagged) && selected.AdjacentMines == 0)
+            SetImage(selected);
+
+            if ((selected.State != TileState.Mine && !selected.IsFlagged) && selected.AdjacentMines == 0)
             {
                 RevealZeros(x, y);
             }
@@ -171,5 +175,22 @@ namespace MinesweeperWithSolver.Models
             }
         }
 
+        public void FlagTile(int x, int y)
+        {
+            var selected = Tiles.First(t => t.X_pos == x && t.Y_pos == y);
+
+            if(selected.IsFlagged)
+            {
+                selected.IsFlagged = false;
+                selected.Image = @"/Resources/Images/covered.png";
+
+            }
+            else
+            {
+                selected.IsFlagged = true;
+                selected.Image = @"/Resources/Images/flag.png";
+            }
+
+        }
     }
 }

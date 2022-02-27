@@ -149,26 +149,29 @@ namespace MinesweeperWithSolver.Models
         {
             var selected = Tiles.First(t => t.X_pos == x && t.Y_pos == y);
 
-            if(selected.State == TileState.Mine)
+            if(!selected.IsFlagged)
             {
-                GameEndTime = DateTime.Now;
-                Status = GameStatus.Failed;
-            }
-            else
-            {
-                selected.State = TileState.Revealed;
-            }
+                if(selected.State == TileState.Mine)
+                {
+                    GameEndTime = DateTime.Now;
+                    Status = GameStatus.Failed;
+                }
+                else
+                {
+                    selected.State = TileState.Revealed;
+                }
 
-            SetImage(selected);
+                SetImage(selected);
 
-            if ((selected.State != TileState.Mine && !selected.IsFlagged) && selected.AdjacentMines == 0)
-            {
-                RevealZeros(x, y);
-            }
+                if ((selected.State != TileState.Mine && !selected.IsFlagged) && selected.AdjacentMines == 0)
+                {
+                    RevealZeros(x, y);
+                }
 
-            if(selected.State != TileState.Mine)
-            {
+                if(selected.State != TileState.Mine)
+                {
 
+                }
             }
         }
 
@@ -176,18 +179,20 @@ namespace MinesweeperWithSolver.Models
         {
             var selected = Tiles.First(t => t.X_pos == x && t.Y_pos == y);
 
-            if(selected.IsFlagged)
+            if(selected.State != TileState.Revealed)
             {
-                selected.IsFlagged = false;
-                selected.Image = @"/Resources/Images/covered.png";
+                if (selected.IsFlagged)
+                {
+                    selected.IsFlagged = false;
+                    selected.Image = @"/Resources/Images/covered.png";
 
+                }
+                else
+                {
+                    selected.IsFlagged = true;
+                    selected.Image = @"/Resources/Images/flag.png";
+                }
             }
-            else
-            {
-                selected.IsFlagged = true;
-                selected.Image = @"/Resources/Images/flag.png";
-            }
-
         }
     }
 }

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MinesweeperWithSolver"
         mc:Ignorable="d"
         Title="Minesweeper"
+        ResizeMode="NoResize"
         SizeToContent="WidthAndHeight">
     <Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">

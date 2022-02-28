@@ -23,6 +23,7 @@
     <None Remove="Resources\Images\mine.png" />
     <None Remove="Resources\Images\minesweeper_title.png" />
     <None Remove="Resources\Images\one.png" />
+    <None Remove="Resources\Images\redmine.png" />
     <None Remove="Resources\Images\seven.png" />
     <None Remove="Resources\Images\six.png" />
     <None Remove="Resources\Images\three.png" />
@@ -49,6 +50,7 @@
     <Resource Include="Resources\Images\covered.png" />
     <Resource Include="Resources\Images\flag.png" />
     <Resource Include="Resources\Images\minesweeper_title.png" />
+    <Resource Include="Resources\Images\redmine.png" />
   </ItemGroup>
 
 </Project>

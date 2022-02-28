@@ -42,13 +42,19 @@ namespace MinesweeperWithSolver.ViewModels
 
         public ICommand FlagCommand { get; }
         public ICommand RevealCommand { get; }
-        public GameBoardViewModel(IRenavigator endScreenRenavigator, GameBoard gameBoard)
+        public ICommand BackCommand { get; }
+        public ICommand RestartCommand { get; }
+
+        public GameBoardViewModel(IRenavigator menuRenavigator, GameBoard gameBoard)
         {
             Width = gameBoard.Width * 30;
             Height = gameBoard.Height * 30 + 100;
             GameBoardTiles = new ObservableCollection<Tile>(gameBoard.Tiles);
-            FlagCommand = new FlagCommand(this, gameBoard, endScreenRenavigator);
-            RevealCommand = new RevealCommand(this, gameBoard, endScreenRenavigator);
+
+            FlagCommand = new FlagCommand(this, gameBoard);
+            RevealCommand = new RevealCommand(this, gameBoard);
+            BackCommand = new RenavigateCommand(menuRenavigator);
+            RestartCommand = new RestartCommand(this, gameBoard);
         }
     }
 }

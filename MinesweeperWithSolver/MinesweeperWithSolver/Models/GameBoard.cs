@@ -46,6 +46,14 @@ namespace MinesweeperWithSolver.Models
             IsItFirstMove = true;
         }
 
+        public void InitializeGameBoard()
+        {
+            Tiles = CreateTiles(Width, Height);
+            GameStartTime = DateTime.Now;
+            Status = GameStatus.InProgress;
+            IsItFirstMove = true;
+        }
+
         public List<Tile> CreateTiles(int width, int height)
         {
             var tiles = new List<Tile>();
@@ -86,10 +94,10 @@ namespace MinesweeperWithSolver.Models
             switch (tile.State)
             {
                 case TileState.Mine:
-                    tile.Image = @"/Resources/Images/mine.png";
+                    tile.Image = "/Resources/Images/mine.png";
                     break;
                 case TileState.Blank:
-                    tile.Image = @"/Resources/Images/covered.png";
+                    tile.Image = "/Resources/Images/covered.png";
                     break;
                 default:
                     tile.Image = @"/Resources/Images/" + tile.AdjacentMines + ".png";
@@ -155,13 +163,14 @@ namespace MinesweeperWithSolver.Models
                 {
                     GameEndTime = DateTime.Now;
                     Status = GameStatus.Failed;
+                    RevealAllMines(selected);
                 }
                 else
                 {
                     selected.State = TileState.Revealed;
+                    SetImage(selected);
                 }
 
-                SetImage(selected);
 
                 if ((selected.State != TileState.Mine && !selected.IsFlagged) && selected.AdjacentMines == 0)
                 {
@@ -170,7 +179,7 @@ namespace MinesweeperWithSolver.Models
 
                 if(selected.State != TileState.Mine)
                 {
-
+                    CompletionCheck();
                 }
             }
         }
@@ -192,6 +201,26 @@ namespace MinesweeperWithSolver.Models
                     selected.IsFlagged = true;
                     selected.Image = @"/Resources/Images/flag.png";
                 }
+            }
+        }
+
+        public void RevealAllMines(Tile selected)
+        {
+            foreach (var tile in Tiles.Where(t => t.State == TileState.Mine))
+            {
+                SetImage(tile);
+            }
+            selected.Image = @"/Resources/Images/redmine.png";
+        }
+
+        public void CompletionCheck()
+        {
+            var nonMineTiles = Tiles.Where(t => !(t.State == TileState.Mine)).Select(t => t.tileID).ToArray();
+            var revealedNonMineTiles = Tiles.Where(t => t.State == TileState.Revealed).Select(t => t.tileID).ToArray();
+
+            if(nonMineTiles.Length == revealedNonMineTiles.Length)
+            {
+                Status = GameStatus.Finished;
             }
         }
     }

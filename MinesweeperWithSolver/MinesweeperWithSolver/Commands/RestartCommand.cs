@@ -1,22 +1,17 @@
 ﻿using MinesweeperWithSolver.Models;
-using MinesweeperWithSolver.State;
 using MinesweeperWithSolver.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
-using System.Linq;
 using System.Collections.ObjectModel;
-using MinesweeperWithSolver.Enums;
+using System.Windows.Input;
 
 namespace MinesweeperWithSolver.Commands
 {
-    public class RevealCommand : ICommand
+    public class RestartCommand : ICommand
     {
         private readonly GameBoardViewModel _gameBoardViewModel;
         private readonly GameBoard _gameBoard;
 
-        public RevealCommand(GameBoardViewModel gameBoardViewModel, GameBoard gameBoard)
+        public RestartCommand(GameBoardViewModel gameBoardViewModel, GameBoard gameBoard)
         {
             _gameBoardViewModel = gameBoardViewModel;
             _gameBoard = gameBoard;
@@ -26,17 +21,12 @@ namespace MinesweeperWithSolver.Commands
 
         public bool CanExecute(object parameter)
         {
-            return _gameBoard.Status == GameStatus.InProgress;
+            return true;
         }
 
         public void Execute(object parameter)
         {
-            Tile selectedTile = (Tile)parameter;
-            if (_gameBoard.IsItFirstMove)
-            {
-                _gameBoard.FirstMove(selectedTile.X_pos, selectedTile.Y_pos);
-            }
-            _gameBoard.RevealTile(selectedTile.X_pos, selectedTile.Y_pos);
+            _gameBoard.InitializeGameBoard();
             _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }

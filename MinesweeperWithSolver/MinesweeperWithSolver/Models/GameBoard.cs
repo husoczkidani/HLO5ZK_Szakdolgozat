@@ -215,8 +215,15 @@ namespace MinesweeperWithSolver.Models
 
         public void CompletionCheck()
         {
-            var nonMineTiles = Tiles.Where(t => !(t.State == TileState.Mine)).Select(t => t.tileID).ToArray();
-            var revealedNonMineTiles = Tiles.Where(t => t.State == TileState.Revealed).Select(t => t.tileID).ToArray();
+            var nonMineTiles = Tiles
+                                .Where(t => !(t.State == TileState.Mine))
+                                .Select(t => t.tileID)
+                                .ToArray();
+
+            var revealedNonMineTiles = Tiles
+                                .Where(t => t.State == TileState.Revealed)
+                                .Select(t => t.tileID)
+                                .ToArray();
 
             if(nonMineTiles.Length == revealedNonMineTiles.Length)
             {

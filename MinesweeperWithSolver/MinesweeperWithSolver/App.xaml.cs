@@ -45,9 +45,9 @@ namespace MinesweeperWithSolver
             services.AddSingleton<CreateViewModel<GameBoardViewModel>>(s =>
             {
                 return () => new GameBoardViewModel(
-                    new ViewModelFactoryRenavigator<EndScreenViewModel>(
+                    new ViewModelFactoryRenavigator<MenuViewModel>(
                         s.GetRequiredService<INavigator>(),
-                        s.GetRequiredService<CreateViewModel<EndScreenViewModel>>()),
+                        s.GetRequiredService<CreateViewModel<MenuViewModel>>()),
                     s.GetRequiredService<GameBoard>());
             });
 

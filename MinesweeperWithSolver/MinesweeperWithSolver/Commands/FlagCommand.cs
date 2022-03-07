@@ -13,13 +13,11 @@ namespace MinesweeperWithSolver.Commands
     {
         private readonly GameBoardViewModel _gameBoardViewModel;
         private readonly GameBoard _gameBoard;
-        private readonly IRenavigator _endScreenRenavigator;
 
-        public FlagCommand(GameBoardViewModel gameBoardViewModel, GameBoard gameBoard, IRenavigator endScreenRenavigator)
+        public FlagCommand(GameBoardViewModel gameBoardViewModel, GameBoard gameBoard)
         {
             _gameBoardViewModel = gameBoardViewModel;
             _gameBoard = gameBoard;
-            _endScreenRenavigator = endScreenRenavigator;
         }
 
         public event EventHandler CanExecuteChanged;

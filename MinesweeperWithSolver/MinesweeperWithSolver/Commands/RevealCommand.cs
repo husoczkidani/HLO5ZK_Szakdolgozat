@@ -26,7 +26,8 @@ namespace MinesweeperWithSolver.Commands
 
         public bool CanExecute(object parameter)
         {
-            return _gameBoard.Status == GameStatus.InProgress;
+            return _gameBoard.Status == GameStatus.Idle
+                   || _gameBoard.Status == GameStatus.InProgress;
         }
 
         public void Execute(object parameter)

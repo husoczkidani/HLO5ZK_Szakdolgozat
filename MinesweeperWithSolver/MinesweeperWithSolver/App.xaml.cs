@@ -27,6 +27,7 @@ namespace MinesweeperWithSolver
 
             services.AddSingleton<IRootViewModelFactory, RootViewModelFactory>();
             services.AddSingleton<INavigator, Navigator>();
+            services.AddSingleton<BasicSolver, BasicSolver>();
             services.AddSingleton<GameBoard, GameBoard>();
             services.AddSingleton<Tile, Tile>();
 
@@ -48,7 +49,8 @@ namespace MinesweeperWithSolver
                     new ViewModelFactoryRenavigator<MenuViewModel>(
                         s.GetRequiredService<INavigator>(),
                         s.GetRequiredService<CreateViewModel<MenuViewModel>>()),
-                    s.GetRequiredService<GameBoard>());
+                    s.GetRequiredService<GameBoard>(),
+                    s.GetRequiredService<BasicSolver>());
             });
 
             services.AddSingleton<CreateViewModel<LeaderBoardViewModel>>(s =>

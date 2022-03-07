@@ -1,9 +1,7 @@
-﻿using Caliburn.Micro;
-using MinesweeperWithSolver.Commands;
+﻿using MinesweeperWithSolver.Commands;
 using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace MinesweeperWithSolver.ViewModels
@@ -44,8 +42,9 @@ namespace MinesweeperWithSolver.ViewModels
         public ICommand RevealCommand { get; }
         public ICommand BackCommand { get; }
         public ICommand RestartCommand { get; }
+        public ICommand SolverCommand { get; }
 
-        public GameBoardViewModel(IRenavigator menuRenavigator, GameBoard gameBoard)
+        public GameBoardViewModel(IRenavigator menuRenavigator, GameBoard gameBoard, BasicSolver basicSolver)
         {
             Width = gameBoard.Width * 30;
             Height = gameBoard.Height * 30 + 100;

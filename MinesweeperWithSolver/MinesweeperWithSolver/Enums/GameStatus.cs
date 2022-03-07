@@ -2,6 +2,7 @@
 {
     public enum GameStatus
     {
+        Idle,
         InProgress,
         Failed,
         Finished

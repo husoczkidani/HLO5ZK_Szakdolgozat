@@ -1,10 +1,8 @@
 ﻿using MinesweeperWithSolver.Enums;
 using MinesweeperWithSolver.Models;
-using MinesweeperWithSolver.State;
 using MinesweeperWithSolver.ViewModels;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 
 namespace MinesweeperWithSolver.Commands

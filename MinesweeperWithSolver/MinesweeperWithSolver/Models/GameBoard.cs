@@ -1,8 +1,6 @@
 ﻿using MinesweeperWithSolver.Enums;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Linq;
 
 namespace MinesweeperWithSolver.Models
@@ -42,7 +40,7 @@ namespace MinesweeperWithSolver.Models
             PlayerName = playerName;
             Tiles = CreateTiles(Width, Height);
             GameStartTime = DateTime.Now;
-            Status = GameStatus.InProgress;
+            Status = GameStatus.Idle;
             IsItFirstMove = true;
         }
 
@@ -50,7 +48,7 @@ namespace MinesweeperWithSolver.Models
         {
             Tiles = CreateTiles(Width, Height);
             GameStartTime = DateTime.Now;
-            Status = GameStatus.InProgress;
+            Status = GameStatus.Idle;
             IsItFirstMove = true;
         }
 
@@ -109,6 +107,7 @@ namespace MinesweeperWithSolver.Models
         {
             Random rand = new Random();
             IsItFirstMove = false;
+            Status = GameStatus.InProgress;
 
             var depth = 0.125 * Width;
             var neighbors = GetNeighbors(x, y, (int)depth);

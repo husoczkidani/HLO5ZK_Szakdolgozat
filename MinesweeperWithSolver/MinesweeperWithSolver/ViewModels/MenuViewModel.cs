@@ -1,9 +1,6 @@
 ﻿using MinesweeperWithSolver.Commands;
 using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 
 namespace MinesweeperWithSolver.ViewModels

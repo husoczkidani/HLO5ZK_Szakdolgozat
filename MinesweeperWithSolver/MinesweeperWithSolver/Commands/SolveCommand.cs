@@ -1,17 +1,21 @@
 ﻿using MinesweeperWithSolver.Enums;
 using MinesweeperWithSolver.Models;
+using MinesweeperWithSolver.ViewModels;
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace MinesweeperWithSolver.Commands
 {
     public class SolveCommand : ICommand
     {
+        private readonly GameBoardViewModel _gameBoardViewModel;
         private readonly GameBoard _gameBoard;
         private readonly BasicSolver _basicSolver;
 
-        public SolveCommand(GameBoard gameBoard, BasicSolver basicSolver)
+        public SolveCommand(GameBoardViewModel gameBoardViewModel, GameBoard gameBoard, BasicSolver basicSolver)
         {
+            _gameBoardViewModel = gameBoardViewModel;
             _gameBoard = gameBoard;
             _basicSolver = basicSolver;
         }
@@ -20,12 +24,13 @@ namespace MinesweeperWithSolver.Commands
 
         public bool CanExecute(object parameter)
         {
-            return _gameBoard.Status == GameStatus.InProgress;
+            return true;
         }
 
         public void Execute(object parameter)
         {
-            throw new NotImplementedException();
+            _basicSolver.basicSolver();
+            _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }
 }

@@ -70,6 +70,10 @@ namespace MinesweeperWithSolver.Models
         {
             return Tiles.Where(t => t.X_pos == x && t.Y_pos == y).Single();
         }
+        public List<Tile> GetNeighbors(Tile tile)
+        {
+            return GetNeighbors(tile.X_pos, tile.Y_pos, 1);
+        }
 
         public List<Tile> GetNeighbors(int x, int y)
         {

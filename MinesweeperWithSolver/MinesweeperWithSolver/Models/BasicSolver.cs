@@ -2,6 +2,7 @@
 using System.Data;
 using MinesweeperWithSolver.Enums;
 using System.Collections.Generic;
+using System;
 
 namespace MinesweeperWithSolver.Models
 {
@@ -20,7 +21,7 @@ namespace MinesweeperWithSolver.Models
             {
                 if(!searchForObviousMines() && !searchForObviousNumbers())
                 {
-                    break;
+                    guessRandomNeighboringTile();
                 }
             }
             
@@ -73,9 +74,13 @@ namespace MinesweeperWithSolver.Models
             return foundNumbers;
         }
 
+        //return all the blank tiles that is a numbered or flagged tiles neighbor
         public void guessRandomNeighboringTile()
         {
-            var tilesWithNeighbors = getTilesWithBlankNeighbors();
+            var blankTilesWithNeighbors = getBlankTilesWithNeighbors();
+            Random rand = new Random();
+            int guess = rand.Next(0, blankTilesWithNeighbors.Count() - 1);
+            _gameBoard.RevealTile(blankTilesWithNeighbors[guess].X_pos, blankTilesWithNeighbors[guess].Y_pos);
 
         }
 
@@ -84,6 +89,14 @@ namespace MinesweeperWithSolver.Models
             return _gameBoard.Tiles
                     .Where(t => t.State == TileState.Revealed && t.AdjacentMines != 0)
                     .Where(t => _gameBoard.GetNeighbors(t).Any(n => n.State != TileState.Revealed && !n.IsFlagged));
+        }
+
+        public List<Tile> getBlankTilesWithNeighbors()
+        {
+            return _gameBoard.Tiles
+                    .Where(t => t.State != TileState.Revealed && !t.IsFlagged)
+                    .Where(t => _gameBoard.GetNeighbors(t).Any(n => n.State == TileState.Revealed || n.IsFlagged))
+                    .ToList();
         }
     }
 }

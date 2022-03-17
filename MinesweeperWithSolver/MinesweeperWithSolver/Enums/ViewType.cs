@@ -5,6 +5,6 @@
         Menu,
         LeaderBoard,
         GameBoard,
-        Endscreen
+        Simulation
     }
 }

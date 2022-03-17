@@ -36,11 +36,17 @@ namespace MinesweeperWithSolver.ViewModels
         }
 
         public ICommand StartGameCommand { get; }
+        public ICommand StartSimulationCommand { get; }
         public ICommand ViewLeaderboardCommand { get; }
 
-        public MenuViewModel(IRenavigator gameBoardRenavigator, IRenavigator leaderBoardRenavigator, GameBoard gameBoard)
+        public MenuViewModel(
+            IRenavigator gameBoardRenavigator, 
+            IRenavigator simulationRenavigator,
+            IRenavigator leaderBoardRenavigator, 
+            GameBoard gameBoard)
         {
             StartGameCommand = new StartGameCommand(this,gameBoardRenavigator, gameBoard);
+            StartSimulationCommand = new RenavigateCommand(simulationRenavigator);
             ViewLeaderboardCommand = new RenavigateCommand(leaderBoardRenavigator);
         }
 

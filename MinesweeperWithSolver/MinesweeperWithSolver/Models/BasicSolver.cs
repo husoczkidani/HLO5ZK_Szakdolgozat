@@ -27,7 +27,6 @@ namespace MinesweeperWithSolver.Models
             
         }
 
-        //search for revealed tiles that in the neighboring tiles AdjacentMines - IsFlagged tiles = Blank tiles
         public bool searchForObviousMines()
         {
             bool foundMines = false;

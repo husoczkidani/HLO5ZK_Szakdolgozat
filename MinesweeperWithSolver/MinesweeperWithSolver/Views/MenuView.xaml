@@ -41,6 +41,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <TextBox  Text="{Binding Playername, UpdateSourceTrigger=PropertyChanged}" Margin="10 0" materialDesign:HintAssist.Hint="Enter Name" Foreground="Black" Width="200" BorderBrush="White" FontSize="20" Height="40"/>
                     <Grid Grid.Row="1" Margin="10" Height="40">
@@ -52,15 +53,15 @@
                         <RadioButton Content="Easy" GroupName="Difficulty" Margin="5 0" FontSize="20" Grid.Column="0"
                                 IsChecked="{Binding Path=Difficulty, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=1}"
                                 Foreground="Black"
-                                Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}" />
+                                Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}" />
                         <RadioButton Content="Normal" GroupName="Difficulty" Margin="5 0" FontSize="20" Grid.Column="1"
                                 IsChecked="{Binding Path=Difficulty, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=2}"
                                 Foreground="Black"
-                                Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}" />
+                                Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}" />
                         <RadioButton Content="Hard" GroupName="Difficulty" Margin="5 0" FontSize="20" Grid.Column="2"
                                 IsChecked="{Binding Path=Difficulty, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=3}"
                                 Foreground="Black"
-                                Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}" />
+                                Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}" />
                     </Grid>
                     <Grid Grid.Row="2" Margin="10">
                         <Button Width="190" Height="40"
@@ -76,9 +77,22 @@
                             FontSize="20" FontFamily="Yu Gothic UI Semibold" />
                     </Grid>
                     <Grid Grid.Row="3" Margin="10">
-                        <Button Width="190" Height="40"
+                        <Button Width="185" Height="40"
                             Style="{StaticResource MaterialDesignRaisedButton}" 
                             Background="CornflowerBlue"
+                            materialDesign:ButtonAssist.CornerRadius="7"
+                            BorderThickness="0.1" 
+                            Foreground="White"
+                            Content="Start Simulation"
+                            ToolTip="Start Simulation"
+                            Command="{Binding Path=StartSimulationCommand}"
+                            x:Name="btnSimulation" 
+                            FontSize="20" FontFamily="Yu Gothic UI Semibold" />
+                    </Grid>
+                    <Grid Grid.Row="4" Margin="10">
+                        <Button Width="175" Height="40"
+                            Style="{StaticResource MaterialDesignRaisedButton}" 
+                            Background="LightSeaGreen"
                             materialDesign:ButtonAssist.CornerRadius="7"
                             BorderThickness="0.1" 
                             Foreground="White"
@@ -88,7 +102,7 @@
                             x:Name="btnLeaderboard" 
                             FontSize="20" FontFamily="Yu Gothic UI Semibold" />
                     </Grid>
-                    <Grid Grid.Row="4" Margin="10">
+                    <Grid Grid.Row="5" Margin="10">
                         <Button Width="150" Height="40"
                             Style="{StaticResource MaterialDesignRaisedButton}" 
                             Background="IndianRed"

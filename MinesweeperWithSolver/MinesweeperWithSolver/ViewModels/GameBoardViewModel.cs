@@ -42,7 +42,7 @@ namespace MinesweeperWithSolver.ViewModels
         public ICommand RevealCommand { get; }
         public ICommand BackCommand { get; }
         public ICommand RestartCommand { get; }
-        public ICommand SolverCommand { get; }
+        public ICommand SolveCommand { get; }
 
         public GameBoardViewModel(IRenavigator menuRenavigator, GameBoard gameBoard, BasicSolver basicSolver)
         {
@@ -54,6 +54,7 @@ namespace MinesweeperWithSolver.ViewModels
             RevealCommand = new RevealCommand(this, gameBoard);
             BackCommand = new RenavigateCommand(menuRenavigator);
             RestartCommand = new RestartCommand(this, gameBoard);
+            SolveCommand = new SolveCommand(this, gameBoard, basicSolver);
         }
     }
 }

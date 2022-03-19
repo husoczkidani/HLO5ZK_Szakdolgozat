@@ -29,7 +29,7 @@ namespace MinesweeperWithSolver.Commands
 
         public void Execute(object parameter)
         {
-            _basicSolver.basicSolver();
+            _basicSolver.Solver();
             _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }

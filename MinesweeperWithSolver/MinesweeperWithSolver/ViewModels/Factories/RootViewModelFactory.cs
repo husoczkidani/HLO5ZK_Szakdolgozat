@@ -10,18 +10,21 @@ namespace MinesweeperWithSolver.ViewModels.Factories
         private readonly CreateViewModel<MenuViewModel> _createMenuVM;
         private readonly CreateViewModel<GameBoardViewModel> _createGameBoardVM;
         private readonly CreateViewModel<LeaderBoardViewModel> _createLeaderBoardVM;
-        private readonly CreateViewModel<SimulationViewModel> _createSimultaionVM;
+        private readonly CreateViewModel<SimulationViewModel> _createSimulationVM;
+        private readonly CreateViewModel<PrevSimulationsViewModel> _createPrevSimulationsVM;
 
         public RootViewModelFactory(
             CreateViewModel<MenuViewModel> createMenuVM,
             CreateViewModel<GameBoardViewModel> createGameBoardVM, 
             CreateViewModel<LeaderBoardViewModel> createLeaderBoardVM, 
-            CreateViewModel<SimulationViewModel> createSimultaionVM)
+            CreateViewModel<SimulationViewModel> createSimultaionVM,
+            CreateViewModel<PrevSimulationsViewModel> createPrevSimulationsVM)
         {
             _createMenuVM = createMenuVM;
             _createGameBoardVM = createGameBoardVM;
             _createLeaderBoardVM = createLeaderBoardVM;
-            _createSimultaionVM = createSimultaionVM;
+            _createSimulationVM = createSimultaionVM;
+            _createPrevSimulationsVM = createPrevSimulationsVM;
         }
 
         public BaseViewModel CreateViewModel(ViewType viewType)
@@ -35,7 +38,9 @@ namespace MinesweeperWithSolver.ViewModels.Factories
                 case ViewType.LeaderBoard:
                     return _createLeaderBoardVM();
                 case ViewType.Simulation:
-                    return _createSimultaionVM();
+                    return _createSimulationVM();
+            case ViewType.PrevSimulations:
+                    return _createPrevSimulationsVM();
                 default:
                     throw new ArgumentException("ViewType is not correct");
             }

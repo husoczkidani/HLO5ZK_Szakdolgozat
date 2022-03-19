@@ -8,6 +8,7 @@ namespace MinesweeperWithSolver.Models
     public class GameBoard
     {
         public bool IsItFirstMove { get; set; }
+        public bool IsSimulation { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public int MineCount { get; set; }
@@ -42,6 +43,34 @@ namespace MinesweeperWithSolver.Models
             GameStartTime = DateTime.Now;
             Status = GameStatus.Idle;
             IsItFirstMove = true;
+            IsSimulation = false;
+        }
+        public void InitializeGameBoard(int difficulty)
+        {
+            switch (difficulty)
+            {
+                case 1:
+                    Width = 9;
+                    Height = 9;
+                    MineCount = 10;
+                    break;
+                case 2:
+                    Width = 16;
+                    Height = 16;
+                    MineCount = 40;
+                    break;
+                case 3:
+                    Width = 30;
+                    Height = 16;
+                    MineCount = 99;
+                    break;
+            }
+            PlayerName = "bot";
+            Tiles = CreateTiles(Width, Height);
+            GameStartTime = DateTime.Now;
+            Status = GameStatus.Idle;
+            IsItFirstMove = true;
+            IsSimulation = true;
         }
 
         public void InitializeGameBoard()

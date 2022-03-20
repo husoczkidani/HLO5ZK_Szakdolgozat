@@ -44,7 +44,7 @@ namespace MinesweeperWithSolver.ViewModels
         public ICommand RestartCommand { get; }
         public ICommand SolveCommand { get; }
 
-        public GameBoardViewModel(IRenavigator menuRenavigator, GameBoard gameBoard, BasicSolver basicSolver)
+        public GameBoardViewModel(IRenavigator menuRenavigator, GameBoard gameBoard, Solver basicSolver)
         {
             Width = gameBoard.Width * 30;
             Height = gameBoard.Height * 30 + 100;

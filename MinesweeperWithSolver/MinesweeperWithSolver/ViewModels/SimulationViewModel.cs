@@ -1,4 +1,5 @@
 ﻿using MinesweeperWithSolver.Commands;
+using MinesweeperWithSolver.Enums;
 using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using System.Windows.Input;
@@ -7,6 +8,14 @@ namespace MinesweeperWithSolver.ViewModels
 {
     public class SimulationViewModel : BaseViewModel
     {
+     //combo box   
+        public SolverType[] PossibleSolverTypes => new SolverType[] {
+            SolverType.StupidSolver,
+            SolverType.BasicSolver,
+            SolverType.SmartSolver,
+            SolverType.SmartestSolver
+        };
+
         //Menu properties
         private string _selectedDifficulty = "0";
         public string SelectedDifficulty
@@ -19,8 +28,8 @@ namespace MinesweeperWithSolver.ViewModels
             }
         }
 
-        private string _selectedSolver = "Basic Solver";
-        public string SelectedSolver
+        private SolverType _selectedSolver = SolverType.StupidSolver;
+        public SolverType SelectedSolver
         {
             get => _selectedSolver;
             set
@@ -97,6 +106,17 @@ namespace MinesweeperWithSolver.ViewModels
             }
         }
 
+        private string _solvingTime;
+        public string SolvingTime
+        {
+            get => _solvingTime;
+            set
+            {
+                _solvingTime = value;
+                OnPropertyChanged(nameof(SolvingTime));
+            }
+        }
+
         public ICommand StartSimulationCommand { get; }
         public ICommand ShowPreviousSimulationsCommand { get; }
         public ICommand BackCommand { get; }
@@ -104,7 +124,7 @@ namespace MinesweeperWithSolver.ViewModels
         public SimulationViewModel( 
             IRenavigator menuRenavigator, 
             IRenavigator prevSimulations, 
-            BasicSolver basicSolver)
+            Solver basicSolver)
         {
             StartSimulationCommand = new SimulationCommand(this, basicSolver);
             ShowPreviousSimulationsCommand = new RenavigateCommand(prevSimulations);

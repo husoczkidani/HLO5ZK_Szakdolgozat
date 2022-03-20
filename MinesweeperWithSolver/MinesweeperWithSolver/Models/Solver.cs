@@ -6,26 +6,65 @@ using System;
 
 namespace MinesweeperWithSolver.Models
 {
-    public class BasicSolver
+    public class Solver
     {
+       
+
         public int GamesPlayed { get; set; }
         public int GamesSolved { get; set; }
         public int GamesFailed { get; set; }
         public double MinesFlagged { get; set; }
         public double TilesRevealed { get; set; }
+        public String SolvingTime { get; set; }
 
         private readonly GameBoard _gameBoard;
 
-        public BasicSolver(GameBoard gameBoard)
+        public Solver(GameBoard gameBoard)
         {
             _gameBoard = gameBoard;
         }
 
-        public void Solver()
+        /* Solving steps:
+        * - Search for obvious mine tiles, and flag them
+        * - Search for obvious number tiles and reveale them
+        * - repeate until it can be repeated
+        * - Search for bordering blank tiles, and guesses a random tile from them
+        * - repeate until the game is over */
+        public void SmartSolver()
+        {
+            while (_gameBoard.Status == GameStatus.InProgress)
+            {
+                if (!SearchForObviousMines() && !SearchForObviousNumbers())
+                {
+                    GuessRandomNeighboringTile();
+                }
+            }
+        }
+
+        /* Solving steps:
+        * - Search for obvious mine tiles, and flag them
+        * - repeate until it can be repeated
+        * - Search for obvious number tiles and reveale them
+        * - repeate until it can be repeated
+        * - Search for bordering blank tiles, and guesses a random tile from them
+        * - repeate until the game is over */
+        public void SmartestSolver()
         {
             while(_gameBoard.Status == GameStatus.InProgress)
             {
-                if(!SearchForObviousMines() && !SearchForObviousNumbers())
+                bool canFlag = true;
+                bool canReveal = true;
+                while (canFlag)
+                {
+                    canFlag = SearchForObviousMines();
+                }
+                canReveal = SearchForObviousNumbers();
+                while (canReveal)
+                {
+                    canReveal = SearchForObviousNumbers();
+                }
+                canFlag = SearchForObviousMines();
+                if (!canFlag && !canReveal && _gameBoard.Status == GameStatus.InProgress)
                 {
                     GuessRandomNeighboringTile();
                 }
@@ -33,7 +72,7 @@ namespace MinesweeperWithSolver.Models
             
         }
 
-        public void Solver(int difficulty, int numberOfSimulations)
+        public void Simulation(int difficulty, int numberOfSimulations, SolverType solverType)
         {
             GamesSolved = 0; 
             GamesFailed = 0;
@@ -42,13 +81,28 @@ namespace MinesweeperWithSolver.Models
 
             double minesFlagged = 0;
             double tilesRevealed = 0;
+            DateTime startingTime = DateTime.Now;
 
             _gameBoard.InitializeGameBoard(difficulty);
             for (GamesPlayed = 0; GamesPlayed < numberOfSimulations; GamesPlayed++)
             {
                 _gameBoard.FirstMove(0, 0);
                 _gameBoard.RevealTile(0, 0);
-                Solver();
+                switch (solverType)
+                {
+                    case SolverType.StupidSolver:
+
+                        break;
+                    case SolverType.BasicSolver:
+
+                        break;
+                    case SolverType.SmartSolver:
+                        SmartSolver();
+                        break;
+                    case SolverType.SmartestSolver:
+                        SmartestSolver();
+                        break;
+                }
                 if (_gameBoard.Status == GameStatus.Finished) GamesSolved++;
                 if (_gameBoard.Status == GameStatus.Failed) GamesFailed++;
 
@@ -60,9 +114,11 @@ namespace MinesweeperWithSolver.Models
 
             MinesFlagged = minesFlagged / (double)(GamesPlayed * _gameBoard.MineCount)*100;
             TilesRevealed = tilesRevealed / (double)(GamesPlayed * _gameBoard.Tiles.Count())*100;
+            TimeSpan span = DateTime.Now.Subtract(startingTime);
+            SolvingTime = $"{span.Minutes}:{span.Seconds}:{Math.Round((double)span.Milliseconds,3)}";
         }
 
-        public bool SearchForObviousMines()
+        private bool SearchForObviousMines()
         {
             bool foundMines = false;
 
@@ -85,7 +141,7 @@ namespace MinesweeperWithSolver.Models
             return foundMines;
         }
 
-        public bool SearchForObviousNumbers()
+        private bool SearchForObviousNumbers()
         {
             bool foundNumbers = false;
 
@@ -108,28 +164,34 @@ namespace MinesweeperWithSolver.Models
             return foundNumbers;
         }
 
-        public void GuessRandomNeighboringTile()
+        private void GuessRandomTile()
         {
-            var blankTilesWithNeighbors = GetBlankTilesWithNeighbors();
+            var blankTiles = _gameBoard.Tiles
+                .Where(t => t.State != TileState.Revealed && !t.IsFlagged)
+                .ToList();
+            Random rand = new Random();
+            int guess = rand.Next(0, blankTiles.Count() - 1);
+            _gameBoard.RevealTile(blankTiles[guess].X_pos, blankTiles[guess].Y_pos);
+        }
+
+        private void GuessRandomNeighboringTile()
+        {
+            var blankTilesWithNeighbors = _gameBoard.Tiles
+                    .Where(t => t.State != TileState.Revealed && !t.IsFlagged)
+                    .Where(t => _gameBoard.GetNeighbors(t).Any(n => n.State == TileState.Revealed || n.IsFlagged))
+                    .ToList();
             Random rand = new Random();
             int guess = rand.Next(0, blankTilesWithNeighbors.Count() - 1);
             _gameBoard.RevealTile(blankTilesWithNeighbors[guess].X_pos, blankTilesWithNeighbors[guess].Y_pos);
 
         }
 
-        public IEnumerable<Tile> GetTilesWithBlankNeighbors()
+        private IEnumerable<Tile> GetTilesWithBlankNeighbors()
         {
             return _gameBoard.Tiles
                     .Where(t => t.State == TileState.Revealed && t.AdjacentMines != 0)
                     .Where(t => _gameBoard.GetNeighbors(t).Any(n => n.State != TileState.Revealed && !n.IsFlagged));
         }
 
-        public List<Tile> GetBlankTilesWithNeighbors()
-        {
-            return _gameBoard.Tiles
-                    .Where(t => t.State != TileState.Revealed && !t.IsFlagged)
-                    .Where(t => _gameBoard.GetNeighbors(t).Any(n => n.State == TileState.Revealed || n.IsFlagged))
-                    .ToList();
-        }
     }
 }

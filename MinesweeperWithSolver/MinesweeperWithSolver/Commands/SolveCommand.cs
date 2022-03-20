@@ -11,13 +11,13 @@ namespace MinesweeperWithSolver.Commands
     {
         private readonly GameBoardViewModel _gameBoardViewModel;
         private readonly GameBoard _gameBoard;
-        private readonly BasicSolver _basicSolver;
+        private readonly Solver _solver;
 
-        public SolveCommand(GameBoardViewModel gameBoardViewModel, GameBoard gameBoard, BasicSolver basicSolver)
+        public SolveCommand(GameBoardViewModel gameBoardViewModel, GameBoard gameBoard, Solver solver)
         {
             _gameBoardViewModel = gameBoardViewModel;
             _gameBoard = gameBoard;
-            _basicSolver = basicSolver;
+            _solver = solver;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -29,8 +29,9 @@ namespace MinesweeperWithSolver.Commands
 
         public void Execute(object parameter)
         {
-            _basicSolver.Solver();
+            _solver.SmartestSolver();
             _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
         }
     }
 }
+

@@ -37,6 +37,9 @@ namespace MinesweeperWithSolver
                     new ViewModelFactoryRenavigator<GameBoardViewModel>(
                         s.GetRequiredService<INavigator>(),
                         s.GetRequiredService<CreateViewModel<GameBoardViewModel>>()),
+                    new ViewModelFactoryRenavigator<SimulationViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<SimulationViewModel>>()),
                     new ViewModelFactoryRenavigator<LeaderBoardViewModel>(
                         s.GetRequiredService<INavigator>(),
                         s.GetRequiredService<CreateViewModel<LeaderBoardViewModel>>()),
@@ -58,9 +61,22 @@ namespace MinesweeperWithSolver
                 return () => new LeaderBoardViewModel();
             });
 
-            services.AddSingleton<CreateViewModel<EndScreenViewModel>>(s =>
+            services.AddSingleton<CreateViewModel<PrevSimulationsViewModel>>(s =>
             {
-                return () => new EndScreenViewModel();
+                return () => new PrevSimulationsViewModel();
+            });
+
+            services.AddSingleton<CreateViewModel<SimulationViewModel>>(s =>
+            {
+                return () => new SimulationViewModel(
+                    new ViewModelFactoryRenavigator<MenuViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<MenuViewModel>>()),
+                    new ViewModelFactoryRenavigator<PrevSimulationsViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<PrevSimulationsViewModel>>()),
+                    s.GetRequiredService<BasicSolver>()
+                    );
             });
 
             services.AddScoped<MainWindowViewModel>();

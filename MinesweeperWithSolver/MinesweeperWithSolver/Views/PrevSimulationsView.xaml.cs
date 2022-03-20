@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace MinesweeperWithSolver.Views
 {
     /// <summary>
-    /// Interaction logic for EndScreenView.xaml
+    /// Interaction logic for PrevSimulationsView.xaml
     /// </summary>
-    public partial class EndScreenView : UserControl
+    public partial class PrevSimulationsView : UserControl
     {
-        public EndScreenView()
+        public PrevSimulationsView()
         {
             InitializeComponent();
         }

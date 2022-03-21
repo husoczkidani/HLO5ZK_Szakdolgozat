@@ -20,56 +20,14 @@ namespace MinesweeperWithSolver.Models
 
         public void InitializeGameBoard(int difficulty, string playerName)
         {
-            switch (difficulty)
-            {
-                case 1:
-                    Width = 9;
-                    Height = 9;
-                    MineCount = 10;
-                    break;
-                case 2:
-                    Width = 16;
-                    Height = 16;
-                    MineCount = 40;
-                    break;
-                case 3:
-                    Width = 30;
-                    Height = 16;
-                    MineCount = 99;
-                    break;
-            }
+            SetGameBoard(difficulty);
             PlayerName = playerName;
-            Tiles = CreateTiles(Width, Height);
-            GameStartTime = DateTime.Now;
-            Status = GameStatus.Idle;
-            IsItFirstMove = true;
             IsSimulation = false;
         }
         public void InitializeGameBoard(int difficulty)
         {
-            switch (difficulty)
-            {
-                case 1:
-                    Width = 9;
-                    Height = 9;
-                    MineCount = 10;
-                    break;
-                case 2:
-                    Width = 16;
-                    Height = 16;
-                    MineCount = 40;
-                    break;
-                case 3:
-                    Width = 30;
-                    Height = 16;
-                    MineCount = 99;
-                    break;
-            }
+            SetGameBoard(difficulty);
             PlayerName = "bot";
-            Tiles = CreateTiles(Width, Height);
-            GameStartTime = DateTime.Now;
-            Status = GameStatus.Idle;
-            IsItFirstMove = true;
             IsSimulation = true;
         }
 
@@ -79,6 +37,32 @@ namespace MinesweeperWithSolver.Models
             GameStartTime = DateTime.Now;
             Status = GameStatus.Idle;
             IsItFirstMove = true;
+        }
+
+        public void SetGameBoard(int difficulty)
+        {
+            switch (difficulty)
+            {
+                case 1:
+                    Width = 9;
+                    Height = 9;
+                    MineCount = 10;
+                    break;
+                case 2:
+                    Width = 16;
+                    Height = 16;
+                    MineCount = 40;
+                    break;
+                case 3:
+                    Width = 30;
+                    Height = 16;
+                    MineCount = 99;
+                    break;
+            }
+            Tiles = CreateTiles(Width, Height);
+            IsItFirstMove = true;
+            Status = GameStatus.Idle;
+            GameStartTime = DateTime.Now;
         }
 
         public List<Tile> CreateTiles(int width, int height)
@@ -142,7 +126,7 @@ namespace MinesweeperWithSolver.Models
             IsItFirstMove = false;
             Status = GameStatus.InProgress;
 
-            var depth = 0.125 * Width;
+            var depth = 0.12 * Width;
             var neighbors = GetNeighbors(x, y, (int)depth);
             neighbors.Add(GetTile(x, y));
 

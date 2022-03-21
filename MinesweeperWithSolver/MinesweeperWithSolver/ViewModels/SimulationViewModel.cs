@@ -1,4 +1,5 @@
 ﻿using MinesweeperWithSolver.Commands;
+using MinesweeperWithSolver.Enums;
 using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using System.Windows.Input;
@@ -7,6 +8,16 @@ namespace MinesweeperWithSolver.ViewModels
 {
     public class SimulationViewModel : BaseViewModel
     {
+        private static string desc = "-search for obvious mine tiles and flag them\n" +
+                                "-search for obvious number tiles and reveal them\n" +
+                                "-repeat the first two step, until there is no obvious\n mine or number tiles\n";
+        //combo box 
+        public SolverType[] PossibleSolverTypes => new SolverType[] {
+            SolverType.SolverNO1,
+            SolverType.SolverNO2,
+            SolverType.SolverNO3
+        };
+
         //Menu properties
         private string _selectedDifficulty = "0";
         public string SelectedDifficulty
@@ -19,14 +30,27 @@ namespace MinesweeperWithSolver.ViewModels
             }
         }
 
-        private string _selectedSolver = "Basic Solver";
-        public string SelectedSolver
+        private SolverType _selectedSolver = SolverType.SolverNO1;
+        public SolverType SelectedSolver
         {
             get => _selectedSolver;
             set
             {
                 _selectedSolver = value;
                 OnPropertyChanged(nameof(SelectedSolver));
+                
+                switch (SelectedSolver)
+                {
+                    case SolverType.SolverNO1:
+                        SolverDesc = desc + "-guess a random blank tile, and start over again";
+                        break;
+                    case SolverType.SolverNO2:
+                        SolverDesc = desc + "-guess a random blank tile that has a revealed\n number neighbor, and start over again";
+                        break;
+                    case SolverType.SolverNO3:
+                        SolverDesc = desc + "- set the game as failed";
+                        break;
+                }
             }
         }
 
@@ -38,6 +62,17 @@ namespace MinesweeperWithSolver.ViewModels
             {
                 _gameNumber = value;
                 OnPropertyChanged(nameof(GameNumber));
+            }
+        }
+
+        private string _solverDesc = desc + "-guess a random blank tile, and start over again";
+        public string SolverDesc
+        {
+            get => _solverDesc;
+            set
+            {
+                _solverDesc = value;
+                OnPropertyChanged(nameof(SolverDesc));
             }
         }
 
@@ -97,6 +132,17 @@ namespace MinesweeperWithSolver.ViewModels
             }
         }
 
+        private string _solvingTime;
+        public string SolvingTime
+        {
+            get => _solvingTime;
+            set
+            {
+                _solvingTime = value;
+                OnPropertyChanged(nameof(SolvingTime));
+            }
+        }
+
         public ICommand StartSimulationCommand { get; }
         public ICommand ShowPreviousSimulationsCommand { get; }
         public ICommand BackCommand { get; }
@@ -104,7 +150,7 @@ namespace MinesweeperWithSolver.ViewModels
         public SimulationViewModel( 
             IRenavigator menuRenavigator, 
             IRenavigator prevSimulations, 
-            BasicSolver basicSolver)
+            Solver basicSolver)
         {
             StartSimulationCommand = new SimulationCommand(this, basicSolver);
             ShowPreviousSimulationsCommand = new RenavigateCommand(prevSimulations);

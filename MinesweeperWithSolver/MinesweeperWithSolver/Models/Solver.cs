@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Data;
-using MinesweeperWithSolver.Enums;
-using System.Collections.Generic;
+﻿using MinesweeperWithSolver.Enums;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace MinesweeperWithSolver.Models
 {
@@ -24,52 +24,15 @@ namespace MinesweeperWithSolver.Models
             _gameBoard = gameBoard;
         }
 
-        /* Solving steps:
-        * - Search for obvious mine tiles, and flag them
-        * - Search for obvious number tiles and reveale them
-        * - repeate until it can be repeated
-        * - Search for bordering blank tiles, and guesses a random tile from them
-        * - repeate until the game is over */
-        public void SmartSolver()
+        public void GameSolver()
         {
             while (_gameBoard.Status == GameStatus.InProgress)
             {
                 if (!SearchForObviousMines() && !SearchForObviousNumbers())
                 {
-                    GuessRandomNeighboringTile();
+                    break;
                 }
             }
-        }
-
-        /* Solving steps:
-        * - Search for obvious mine tiles, and flag them
-        * - repeate until it can be repeated
-        * - Search for obvious number tiles and reveale them
-        * - repeate until it can be repeated
-        * - Search for bordering blank tiles, and guesses a random tile from them
-        * - repeate until the game is over */
-        public void SmartestSolver()
-        {
-            while(_gameBoard.Status == GameStatus.InProgress)
-            {
-                bool canFlag = true;
-                bool canReveal = true;
-                while (canFlag)
-                {
-                    canFlag = SearchForObviousMines();
-                }
-                canReveal = SearchForObviousNumbers();
-                while (canReveal)
-                {
-                    canReveal = SearchForObviousNumbers();
-                }
-                canFlag = SearchForObviousMines();
-                if (!canFlag && !canReveal && _gameBoard.Status == GameStatus.InProgress)
-                {
-                    GuessRandomNeighboringTile();
-                }
-            }
-            
         }
 
         public void Simulation(int difficulty, int numberOfSimulations, SolverType solverType)
@@ -81,28 +44,32 @@ namespace MinesweeperWithSolver.Models
 
             double minesFlagged = 0;
             double tilesRevealed = 0;
+            _gameBoard.InitializeGameBoard(difficulty);
             DateTime startingTime = DateTime.Now;
 
-            _gameBoard.InitializeGameBoard(difficulty);
             for (GamesPlayed = 0; GamesPlayed < numberOfSimulations; GamesPlayed++)
             {
                 _gameBoard.FirstMove(0, 0);
                 _gameBoard.RevealTile(0, 0);
-                switch (solverType)
+                while (_gameBoard.Status == GameStatus.InProgress)
                 {
-                    case SolverType.StupidSolver:
-
-                        break;
-                    case SolverType.BasicSolver:
-
-                        break;
-                    case SolverType.SmartSolver:
-                        SmartSolver();
-                        break;
-                    case SolverType.SmartestSolver:
-                        SmartestSolver();
-                        break;
+                    if (!SearchForObviousMines() && !SearchForObviousNumbers())
+                    {
+                        switch (solverType)
+                        {
+                            case SolverType.SolverNO1:
+                                GuessRandomTile();
+                                break;
+                            case SolverType.SolverNO2:
+                                GuessRandomNeighboringTile();
+                                break;
+                            case SolverType.SolverNO3:
+                                _gameBoard.Status = GameStatus.Failed;
+                                break;
+                        }
+                    }
                 }
+                
                 if (_gameBoard.Status == GameStatus.Finished) GamesSolved++;
                 if (_gameBoard.Status == GameStatus.Failed) GamesFailed++;
 

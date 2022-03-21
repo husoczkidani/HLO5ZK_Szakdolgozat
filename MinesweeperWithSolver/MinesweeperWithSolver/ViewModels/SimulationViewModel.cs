@@ -8,12 +8,14 @@ namespace MinesweeperWithSolver.ViewModels
 {
     public class SimulationViewModel : BaseViewModel
     {
-     //combo box   
+        private static string desc = "-search for obvious mine tiles and flag them\n" +
+                                "-search for obvious number tiles and reveal them\n" +
+                                "-repeat the first two step, until there is no obvious\n mine or number tiles\n";
+        //combo box 
         public SolverType[] PossibleSolverTypes => new SolverType[] {
-            SolverType.StupidSolver,
-            SolverType.BasicSolver,
-            SolverType.SmartSolver,
-            SolverType.SmartestSolver
+            SolverType.SolverNO1,
+            SolverType.SolverNO2,
+            SolverType.SolverNO3
         };
 
         //Menu properties
@@ -28,7 +30,7 @@ namespace MinesweeperWithSolver.ViewModels
             }
         }
 
-        private SolverType _selectedSolver = SolverType.StupidSolver;
+        private SolverType _selectedSolver = SolverType.SolverNO1;
         public SolverType SelectedSolver
         {
             get => _selectedSolver;
@@ -36,6 +38,19 @@ namespace MinesweeperWithSolver.ViewModels
             {
                 _selectedSolver = value;
                 OnPropertyChanged(nameof(SelectedSolver));
+                
+                switch (SelectedSolver)
+                {
+                    case SolverType.SolverNO1:
+                        SolverDesc = desc + "-guess a random blank tile, and start over again";
+                        break;
+                    case SolverType.SolverNO2:
+                        SolverDesc = desc + "-guess a random blank tile that has a revealed\n number neighbor, and start over again";
+                        break;
+                    case SolverType.SolverNO3:
+                        SolverDesc = desc + "- set the game as failed";
+                        break;
+                }
             }
         }
 
@@ -47,6 +62,17 @@ namespace MinesweeperWithSolver.ViewModels
             {
                 _gameNumber = value;
                 OnPropertyChanged(nameof(GameNumber));
+            }
+        }
+
+        private string _solverDesc = desc + "-guess a random blank tile, and start over again";
+        public string SolverDesc
+        {
+            get => _solverDesc;
+            set
+            {
+                _solverDesc = value;
+                OnPropertyChanged(nameof(SolverDesc));
             }
         }
 

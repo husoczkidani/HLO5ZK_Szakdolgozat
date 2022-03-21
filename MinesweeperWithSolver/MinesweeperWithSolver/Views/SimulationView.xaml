@@ -88,6 +88,7 @@
             <Border Grid.Column="1" Margin="15" Padding="15" BorderBrush="CornflowerBlue" BorderThickness="2" CornerRadius="7">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="150"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -97,16 +98,15 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" Text="Games Played:" 
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" FontSize="18" Padding="5"
+                                   FontFamily="Yu Gothic UI Semibold" Text="Solver steps:" 
                                    />
-                        <TextBlock Grid.Column="1" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" 
-                                   Text="{Binding GamesPlayed, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBlock Grid.Row="1" FontSize="12" Padding="5" 
+                                   Text="{Binding SolverDesc, UpdateSourceTrigger=PropertyChanged}" 
                                    />
                     </Grid>
                     <Grid Grid.Row="1">
@@ -114,12 +114,11 @@
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" Text="Games Solved:" 
+                        <TextBlock Grid.Column="0" FontSize="18" Padding="5"
+                                   FontFamily="Yu Gothic UI Semibold" Text="Games Played:" 
                                    />
-                        <TextBlock Grid.Column="1" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" 
-                                   Text="{Binding GamesSolved, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBlock Grid.Column="1" FontSize="18" Padding="5"
+                                   Text="{Binding GamesPlayed, UpdateSourceTrigger=PropertyChanged}" 
                                    />
                     </Grid>
                     <Grid Grid.Row="2">
@@ -127,12 +126,11 @@
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" Text="Games Failed:" 
+                        <TextBlock Grid.Column="0" FontSize="18" Padding="5"
+                                   FontFamily="Yu Gothic UI Semibold" Text="Games Solved:" 
                                    />
-                        <TextBlock Grid.Column="1" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" 
-                                   Text="{Binding GamesFailed, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBlock Grid.Column="1" FontSize="18" Padding="5"
+                                   Text="{Binding GamesSolved, UpdateSourceTrigger=PropertyChanged}" 
                                    />
                     </Grid>
                     <Grid Grid.Row="3">
@@ -140,12 +138,11 @@
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" Text="Mines Flagged:" 
+                        <TextBlock Grid.Column="0" FontSize="18" Padding="5"
+                                   FontFamily="Yu Gothic UI Semibold" Text="Games Failed:" 
                                    />
-                        <TextBlock Grid.Column="1" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" 
-                                   Text="{Binding MinesFlagged, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBlock Grid.Column="1" FontSize="18" Padding="5"
+                                   Text="{Binding GamesFailed, UpdateSourceTrigger=PropertyChanged}" 
                                    />
                     </Grid>
                     <Grid Grid.Row="4">
@@ -153,12 +150,11 @@
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" Text="Tiles Revealed:" 
+                        <TextBlock Grid.Column="0" FontSize="18" Padding="5"
+                                   FontFamily="Yu Gothic UI Semibold" Text="Mines Flagged:" 
                                    />
-                        <TextBlock Grid.Column="1" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" 
-                                   Text="{Binding TilesRevealed, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBlock Grid.Column="1" FontSize="18" Padding="5"
+                                   Text="{Binding MinesFlagged, UpdateSourceTrigger=PropertyChanged}" 
                                    />
                     </Grid>
                     <Grid Grid.Row="5">
@@ -166,11 +162,22 @@
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="20" Padding="5"
+                        <TextBlock Grid.Column="0" FontSize="18" Padding="5"
+                                   FontFamily="Yu Gothic UI Semibold" Text="Tiles Revealed:" 
+                                   />
+                        <TextBlock Grid.Column="1" FontSize="18" Padding="5"
+                                   Text="{Binding TilesRevealed, UpdateSourceTrigger=PropertyChanged}" 
+                                   />
+                    </Grid>
+                    <Grid Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontSize="18" Padding="5"
                                    FontFamily="Yu Gothic UI Semibold" Text="Solving Time:" 
                                    />
-                        <TextBlock Grid.Column="1" FontSize="20" Padding="5"
-                                   FontFamily="Yu Gothic UI Semibold" 
+                        <TextBlock Grid.Column="1" FontSize="18" Padding="5"
                                    Text="{Binding SolvingTime, UpdateSourceTrigger=PropertyChanged}" 
                                    />
                     </Grid>

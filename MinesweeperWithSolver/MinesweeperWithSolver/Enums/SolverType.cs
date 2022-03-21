@@ -6,9 +6,8 @@ namespace MinesweeperWithSolver.Enums
 {
     public enum SolverType
     {
-        StupidSolver,
-        BasicSolver,
-        SmartSolver,
-        SmartestSolver
+        SolverNO1,
+        SolverNO2,
+        SolverNO3
     }
 }

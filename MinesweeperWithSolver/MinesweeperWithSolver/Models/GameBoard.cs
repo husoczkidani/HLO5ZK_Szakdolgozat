@@ -126,7 +126,7 @@ namespace MinesweeperWithSolver.Models
             IsItFirstMove = false;
             Status = GameStatus.InProgress;
 
-            var depth = 0.125 * Width;
+            var depth = 0.12 * Width;
             var neighbors = GetNeighbors(x, y, (int)depth);
             neighbors.Add(GetTile(x, y));
 

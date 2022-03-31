@@ -1,4 +1,6 @@
 ﻿using MinesweeperWithSolver.Commands;
+using MinesweeperWithSolver.Data.Entities;
+using MinesweeperWithSolver.Data.Services.DataService;
 using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using System.Collections.ObjectModel;
@@ -44,14 +46,18 @@ namespace MinesweeperWithSolver.ViewModels
         public ICommand RestartCommand { get; }
         public ICommand SolveCommand { get; }
 
-        public GameBoardViewModel(IRenavigator menuRenavigator, GameBoard gameBoard, Solver basicSolver)
+        public GameBoardViewModel(
+            IRenavigator menuRenavigator, 
+            GameBoard gameBoard, 
+            Solver basicSolver,
+            IDataService<PlayedGame> dataService)
         {
             Width = gameBoard.Width * 30;
             Height = gameBoard.Height * 30 + 100;
             GameBoardTiles = new ObservableCollection<Tile>(gameBoard.Tiles);
 
             FlagCommand = new FlagCommand(this, gameBoard);
-            RevealCommand = new RevealCommand(this, gameBoard);
+            RevealCommand = new RevealCommand(this, gameBoard, dataService);
             BackCommand = new RenavigateCommand(menuRenavigator);
             RestartCommand = new RestartCommand(this, gameBoard);
             SolveCommand = new SolveCommand(this, gameBoard, basicSolver);

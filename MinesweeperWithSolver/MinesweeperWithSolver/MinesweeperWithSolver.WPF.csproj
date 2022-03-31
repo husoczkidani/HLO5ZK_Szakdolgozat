@@ -39,6 +39,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MinesweeperWithSolver.Data\MinesweeperWithSolver.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Images\0.png" />
     <Resource Include="Resources\Images\1.png" />
     <Resource Include="Resources\Images\2.png" />

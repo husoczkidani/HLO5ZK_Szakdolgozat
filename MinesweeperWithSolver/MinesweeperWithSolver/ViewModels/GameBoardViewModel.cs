@@ -49,15 +49,14 @@ namespace MinesweeperWithSolver.ViewModels
         public GameBoardViewModel(
             IRenavigator menuRenavigator, 
             GameBoard gameBoard, 
-            Solver basicSolver,
-            IDataService<PlayedGame> dataService)
+            Solver basicSolver)
         {
             Width = gameBoard.Width * 30;
             Height = gameBoard.Height * 30 + 100;
             GameBoardTiles = new ObservableCollection<Tile>(gameBoard.Tiles);
 
             FlagCommand = new FlagCommand(this, gameBoard);
-            RevealCommand = new RevealCommand(this, gameBoard, dataService);
+            RevealCommand = new RevealCommand(this, gameBoard);
             BackCommand = new RenavigateCommand(menuRenavigator);
             RestartCommand = new RestartCommand(this, gameBoard);
             SolveCommand = new SolveCommand(this, gameBoard, basicSolver);

@@ -61,8 +61,7 @@ namespace MinesweeperWithSolver
                         s.GetRequiredService<INavigator>(),
                         s.GetRequiredService<CreateViewModel<MenuViewModel>>()),
                     s.GetRequiredService<GameBoard>(),
-                    s.GetRequiredService<Solver>(),
-                    s.GetRequiredService<IDataService<PlayedGame>>());
+                    s.GetRequiredService<Solver>());
             });
 
             services.AddSingleton<CreateViewModel<LeaderBoardViewModel>>(s =>

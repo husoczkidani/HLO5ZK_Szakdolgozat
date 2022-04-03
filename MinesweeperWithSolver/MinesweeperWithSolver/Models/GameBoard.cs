@@ -1,4 +1,6 @@
-﻿using MinesweeperWithSolver.Enums;
+﻿using MinesweeperWithSolver.Data.Entities;
+using MinesweeperWithSolver.Data.Services.DataService;
+using MinesweeperWithSolver.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,13 @@ namespace MinesweeperWithSolver.Models
         public GameStatus Status { get; set; }
         public DateTime GameStartTime { get; set; }
         public DateTime GameEndTime { get; set; }
+
+        private readonly IDataService<PlayedGame> _dataService;
+
+        public GameBoard(IDataService<PlayedGame> dataService)
+        {
+            _dataService = dataService;
+        }
 
         public void InitializeGameBoard(int difficulty, string playerName)
         {
@@ -249,8 +258,23 @@ namespace MinesweeperWithSolver.Models
             {
                 Status = GameStatus.Finished;
                 GameEndTime = DateTime.Now;
-
+                if(!IsSimulation)
+                {
+                    SaveFinishedGame();
+                }
+               
             }
+        }
+
+        public void SaveFinishedGame()
+        {
+            _dataService.Create(new PlayedGame()
+                {
+                    Name = PlayerName,
+                    Difficulty = Difficulty,
+                    Time = new DateTime() + GameEndTime.Subtract(GameStartTime)
+                }
+            );
         }
     }
 }

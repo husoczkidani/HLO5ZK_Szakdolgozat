@@ -1,4 +1,6 @@
-﻿using MinesweeperWithSolver.Enums;
+﻿using MinesweeperWithSolver.Data.Entities;
+using MinesweeperWithSolver.Data.Services.DataService;
+using MinesweeperWithSolver.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,17 +17,20 @@ namespace MinesweeperWithSolver.Models
         public int GamesFailed { get; set; }
         public double MinesFlagged { get; set; }
         public double TilesRevealed { get; set; }
-        public String SolvingTime { get; set; }
+        public DateTime SolvingTime { get; set; }
 
         private readonly GameBoard _gameBoard;
+        private readonly IDataService<Simulation> _dataService;
 
-        public Solver(GameBoard gameBoard)
+        public Solver(GameBoard gameBoard, IDataService<Simulation> dataService)
         {
             _gameBoard = gameBoard;
+            _dataService = dataService;
         }
 
         public void GameSolver()
         {
+            _gameBoard.IsSimulation = true;
             while (_gameBoard.Status == GameStatus.InProgress)
             {
                 if (!SearchForObviousMines() && !SearchForObviousNumbers())
@@ -81,8 +86,8 @@ namespace MinesweeperWithSolver.Models
 
             MinesFlagged = minesFlagged / (double)(GamesPlayed * _gameBoard.MineCount)*100;
             TilesRevealed = tilesRevealed / (double)(GamesPlayed * _gameBoard.Tiles.Count())*100;
-            TimeSpan span = DateTime.Now.Subtract(startingTime);
-            SolvingTime = $"{span.Minutes}:{span.Seconds}:{Math.Round((double)span.Milliseconds,3)}";
+            SolvingTime = new DateTime() + DateTime.Now.Subtract(startingTime);
+            SaveSimulation(solverType);
         }
 
         private bool SearchForObviousMines()
@@ -158,6 +163,22 @@ namespace MinesweeperWithSolver.Models
             return _gameBoard.Tiles
                     .Where(t => t.State == TileState.Revealed && t.AdjacentMines != 0)
                     .Where(t => _gameBoard.GetNeighbors(t).Any(n => n.State != TileState.Revealed && !n.IsFlagged));
+        }
+
+        private void SaveSimulation(SolverType solverType)
+        {
+            _dataService.Create(new Simulation()
+                {
+                    Solver = solverType.ToString(),
+                    Difficulty = _gameBoard.Difficulty,
+                    GamesPlayed = GamesPlayed,
+                    GamesSolved = GamesSolved,
+                    GamesFailed = GamesFailed,
+                    MinesFlagged = MinesFlagged,
+                    TilesRevealed = TilesRevealed,
+                    Time = SolvingTime
+            }
+            );
         }
 
     }

@@ -17,16 +17,13 @@ namespace MinesweeperWithSolver.Commands
     {
         private readonly GameBoardViewModel _gameBoardViewModel;
         private readonly GameBoard _gameBoard;
-        private readonly IDataService<PlayedGame> _dataService;
 
         public RevealCommand(
             GameBoardViewModel gameBoardViewModel, 
-            GameBoard gameBoard,
-            IDataService<PlayedGame> dataService)
+            GameBoard gameBoard)
         {
             _gameBoardViewModel = gameBoardViewModel;
             _gameBoard = gameBoard;
-            _dataService = dataService;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -47,10 +44,6 @@ namespace MinesweeperWithSolver.Commands
             _gameBoard.RevealTile(selectedTile.X_pos, selectedTile.Y_pos);
             _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
 
-            if(_gameBoard.Status == GameStatus.Finished)
-            {
-                
-            }
         }
     }
 }

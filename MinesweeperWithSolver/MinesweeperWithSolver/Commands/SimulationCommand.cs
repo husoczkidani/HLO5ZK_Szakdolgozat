@@ -37,7 +37,7 @@ namespace MinesweeperWithSolver.Commands
             _simulationViewModel.GamesFailed = _solver.GamesFailed.ToString();
             _simulationViewModel.MinesFlagged = Math.Round(_solver.MinesFlagged, 3).ToString() + "%";
             _simulationViewModel.TilesRevealed = Math.Round(_solver.TilesRevealed, 3).ToString() + "%";
-            _simulationViewModel.SolvingTime = _solver.SolvingTime;
+            _simulationViewModel.SolvingTime = $"{_solver.SolvingTime.Minute}:{_solver.SolvingTime.Second}:{Math.Round((double)_solver.SolvingTime.Millisecond, 3)}";
         }
     }
 }

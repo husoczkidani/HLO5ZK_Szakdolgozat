@@ -1,4 +1,6 @@
 ﻿using MinesweeperWithSolver.Commands;
+using MinesweeperWithSolver.Data.Entities;
+using MinesweeperWithSolver.Data.Services.DataService;
 using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using System.Collections.ObjectModel;
@@ -44,7 +46,10 @@ namespace MinesweeperWithSolver.ViewModels
         public ICommand RestartCommand { get; }
         public ICommand SolveCommand { get; }
 
-        public GameBoardViewModel(IRenavigator menuRenavigator, GameBoard gameBoard, Solver basicSolver)
+        public GameBoardViewModel(
+            IRenavigator menuRenavigator, 
+            GameBoard gameBoard, 
+            Solver basicSolver)
         {
             Width = gameBoard.Width * 30;
             Height = gameBoard.Height * 30 + 100;

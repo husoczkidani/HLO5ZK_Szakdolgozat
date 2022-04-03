@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MinesweeperWithSolver.Data;
+using MinesweeperWithSolver.Data.Entities;
+using MinesweeperWithSolver.Data.Services.DataService;
 using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using MinesweeperWithSolver.ViewModels;
@@ -25,11 +28,16 @@ namespace MinesweeperWithSolver
         {
             IServiceCollection services = new ServiceCollection();
 
+            services.AddSingleton<DatabaseContext, DatabaseContext>();
             services.AddSingleton<IRootViewModelFactory, RootViewModelFactory>();
             services.AddSingleton<INavigator, Navigator>();
             services.AddSingleton<Solver, Solver>();
             services.AddSingleton<GameBoard, GameBoard>();
             services.AddSingleton<Tile, Tile>();
+
+            services.AddSingleton<IDataService<BaseTable>, GenericDataService<BaseTable>>();
+            services.AddSingleton<IDataService<PlayedGame>, GenericDataService<PlayedGame>>();
+            services.AddSingleton<IDataService<Simulation>, GenericDataService<Simulation>>();
 
             services.AddSingleton<CreateViewModel<MenuViewModel>>(s =>
             {

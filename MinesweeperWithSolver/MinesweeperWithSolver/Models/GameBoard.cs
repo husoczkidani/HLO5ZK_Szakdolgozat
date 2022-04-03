@@ -1,4 +1,6 @@
-﻿using MinesweeperWithSolver.Enums;
+﻿using MinesweeperWithSolver.Data.Entities;
+using MinesweeperWithSolver.Data.Services.DataService;
+using MinesweeperWithSolver.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,18 @@ namespace MinesweeperWithSolver.Models
         public int Height { get; set; }
         public int MineCount { get; set; }
         public string PlayerName { get; set; }
+        public string Difficulty { get; set; }
         public List<Tile> Tiles { get; set; }
         public GameStatus Status { get; set; }
         public DateTime GameStartTime { get; set; }
         public DateTime GameEndTime { get; set; }
+
+        private readonly IDataService<PlayedGame> _dataService;
+
+        public GameBoard(IDataService<PlayedGame> dataService)
+        {
+            _dataService = dataService;
+        }
 
         public void InitializeGameBoard(int difficulty, string playerName)
         {
@@ -47,16 +57,19 @@ namespace MinesweeperWithSolver.Models
                     Width = 9;
                     Height = 9;
                     MineCount = 10;
+                    Difficulty = "Easy";
                     break;
                 case 2:
                     Width = 16;
                     Height = 16;
                     MineCount = 40;
+                    Difficulty = "Normal";
                     break;
                 case 3:
                     Width = 30;
                     Height = 16;
                     MineCount = 99;
+                    Difficulty = "Hard"; 
                     break;
             }
             Tiles = CreateTiles(Width, Height);
@@ -244,7 +257,24 @@ namespace MinesweeperWithSolver.Models
             if(nonMineTiles.Length == revealedNonMineTiles.Length)
             {
                 Status = GameStatus.Finished;
+                GameEndTime = DateTime.Now;
+                if(!IsSimulation)
+                {
+                    SaveFinishedGame();
+                }
+               
             }
+        }
+
+        public void SaveFinishedGame()
+        {
+            _dataService.Create(new PlayedGame()
+                {
+                    Name = PlayerName,
+                    Difficulty = Difficulty,
+                    Time = new DateTime() + GameEndTime.Subtract(GameStartTime)
+                }
+            );
         }
     }
 }

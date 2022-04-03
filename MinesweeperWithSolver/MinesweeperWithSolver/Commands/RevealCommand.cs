@@ -8,6 +8,8 @@ using System.Windows.Input;
 using System.Linq;
 using System.Collections.ObjectModel;
 using MinesweeperWithSolver.Enums;
+using MinesweeperWithSolver.Data.Services.DataService;
+using MinesweeperWithSolver.Data.Entities;
 
 namespace MinesweeperWithSolver.Commands
 {
@@ -16,7 +18,9 @@ namespace MinesweeperWithSolver.Commands
         private readonly GameBoardViewModel _gameBoardViewModel;
         private readonly GameBoard _gameBoard;
 
-        public RevealCommand(GameBoardViewModel gameBoardViewModel, GameBoard gameBoard)
+        public RevealCommand(
+            GameBoardViewModel gameBoardViewModel, 
+            GameBoard gameBoard)
         {
             _gameBoardViewModel = gameBoardViewModel;
             _gameBoard = gameBoard;
@@ -39,6 +43,7 @@ namespace MinesweeperWithSolver.Commands
             }
             _gameBoard.RevealTile(selectedTile.X_pos, selectedTile.Y_pos);
             _gameBoardViewModel.GameBoardTiles = new ObservableCollection<Tile>(_gameBoard.Tiles);
+
         }
     }
 }

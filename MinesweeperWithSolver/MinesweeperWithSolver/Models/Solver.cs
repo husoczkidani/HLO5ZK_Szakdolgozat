@@ -177,7 +177,7 @@ namespace MinesweeperWithSolver.Models
                     MinesFlagged = MinesFlagged,
                     TilesRevealed = TilesRevealed,
                     Time = SolvingTime
-            }
+                }
             );
         }
 

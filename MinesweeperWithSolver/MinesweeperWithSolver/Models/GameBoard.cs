@@ -268,6 +268,7 @@ namespace MinesweeperWithSolver.Models
 
         public void SaveFinishedGame()
         {
+            
             _dataService.Create(new PlayedGame()
                 {
                     Name = PlayerName,

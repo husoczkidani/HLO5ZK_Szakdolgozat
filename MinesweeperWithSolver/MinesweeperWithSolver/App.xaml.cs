@@ -66,7 +66,12 @@ namespace MinesweeperWithSolver
 
             services.AddSingleton<CreateViewModel<LeaderBoardViewModel>>(s =>
             {
-                return () => new LeaderBoardViewModel();
+                return () => new LeaderBoardViewModel(
+                    s.GetRequiredService<IDataService<PlayedGame>>(),
+                    new ViewModelFactoryRenavigator<MenuViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<MenuViewModel>>())
+                    );
             });
 
             services.AddSingleton<CreateViewModel<PrevSimulationsViewModel>>(s =>

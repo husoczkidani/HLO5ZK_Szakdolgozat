@@ -76,7 +76,12 @@ namespace MinesweeperWithSolver
 
             services.AddSingleton<CreateViewModel<PrevSimulationsViewModel>>(s =>
             {
-                return () => new PrevSimulationsViewModel();
+                return () => new PrevSimulationsViewModel(
+                    s.GetRequiredService<IDataService<Simulation>>(),
+                    new ViewModelFactoryRenavigator<SimulationViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<SimulationViewModel>>())
+                    );
             });
 
             services.AddSingleton<CreateViewModel<SimulationViewModel>>(s =>

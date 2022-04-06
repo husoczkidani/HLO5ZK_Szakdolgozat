@@ -3,10 +3,143 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:MinesweeperWithSolver.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-           
+             Height="570" Width="570">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <ComboBox FontSize="20" Height="40" Width="160" Foreground="Black" Margin="15"
+                        Style="{StaticResource MaterialDesignComboBox}"
+                        SelectedIndex="{Binding SelectedDifficulty, UpdateSourceTrigger=PropertyChanged}"
+                              >
+                <ComboBoxItem IsSelected="True" Content="Easy"/>
+                <ComboBoxItem Content="Normal"/>
+                <ComboBoxItem Content="Hard"/>
+            </ComboBox>
+        </Grid>
+        <Grid  Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="400"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="520"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" Grid.Row="1" BorderBrush="CornflowerBlue" BorderThickness="2" CornerRadius="7" Padding="10" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontSize="17" Padding="5"
+                                    FontFamily="Yu Gothic UI Semibold" Text="Solver"
+                                    Foreground="DarkGreen"
+                                    HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" FontSize="17" Padding="5"
+                                    FontFamily="Yu Gothic UI Semibold" Text="Games" 
+                                    Foreground="DarkGreen"
+                                    HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" FontSize="17" Padding="5"
+                                    FontFamily="Yu Gothic UI Semibold" Text="Solved" 
+                                    Foreground="DarkGreen"
+                                    HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" FontSize="17" Padding="5"
+                                    FontFamily="Yu Gothic UI Semibold" Text="Failed" 
+                                    Foreground="DarkGreen"
+                                    HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="4" FontSize="17" Padding="5"
+                                    FontFamily="Yu Gothic UI Semibold" Text="Flagged" 
+                                    Foreground="DarkGreen"
+                                    HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="5" FontSize="17" Padding="5"
+                                    FontFamily="Yu Gothic UI Semibold" Text="Revealed" 
+                                    Foreground="DarkGreen"
+                                    HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="6" FontSize="17" Padding="5"
+                                    FontFamily="Yu Gothic UI Semibold" Text="Time" 
+                                    Foreground="DarkGreen"
+                                    HorizontalAlignment="Center"/>
+                    </Grid>
+                    <Grid  Grid.Row="1">
+                        <ItemsControl x:Name="Leaders" ItemsSource="{Binding TopLeaders, Mode=OneWay, NotifyOnTargetUpdated=True}" Grid.Row="1">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85"/>
+                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="65"/>
+                                            <ColumnDefinition Width="65"/>
+                                            <ColumnDefinition Width="95"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" FontSize="16" Padding="5"
+                                           FontFamily="Yu Gothic UI Semibold" Text="{Binding Solver}" 
+                                           />
+                                        <TextBlock Grid.Column="1" FontSize="16" Padding="5"
+                                           FontFamily="Yu Gothic UI Semibold" Text="{Binding GamesPlayed}" 
+                                           />
+                                        <TextBlock Grid.Column="2" FontSize="16" Padding="5"
+                                           FontFamily="Yu Gothic UI Semibold" Text="{Binding GamesSolved}" 
+                                           />
+                                        <TextBlock Grid.Column="3" FontSize="16" Padding="5"
+                                           FontFamily="Yu Gothic UI Semibold" Text="{Binding GamesFailed}" 
+                                           />
+                                        <TextBlock Grid.Column="4" FontSize="16" Padding="5"
+                                           FontFamily="Yu Gothic UI Semibold" Text="{Binding MinesFlagged, StringFormat={}{0:#,0.0}}" 
+                                           />
+                                        <TextBlock Grid.Column="5" FontSize="16" Padding="5"
+                                           FontFamily="Yu Gothic UI Semibold" Text="{Binding TilesRevealed, StringFormat={}{0:#,0.0}}" 
+                                           />
+                                        <TextBlock Grid.Column="6" FontSize="16" Padding="5"
+                                           FontFamily="Yu Gothic UI Semibold" Text="{Binding Time, StringFormat=mm:ss.ff}" 
+                                           />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+
+        <Button  Grid.Row="2"
+                Margin="15"
+                Width="120" Height="35"
+                Style="{StaticResource MaterialDesignRaisedButton}" 
+                Background="IndianRed"
+                materialDesign:ButtonAssist.CornerRadius="7"
+                BorderThickness="0.1" 
+                Foreground="White"
+                Content="Back" ToolTip="Back"
+                Command="{Binding Path=BackCommand}"
+                x:Name="btnBack" 
+                FontSize="18" FontFamily="Yu Gothic UI Semibold" />
     </Grid>
 </UserControl>

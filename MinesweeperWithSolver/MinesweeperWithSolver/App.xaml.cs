@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MinesweeperWithSolver.Data;
+using MinesweeperWithSolver.Data.Entities;
+using MinesweeperWithSolver.Data.Services.DataService;
+using MinesweeperWithSolver.Models;
 using MinesweeperWithSolver.State;
 using MinesweeperWithSolver.ViewModels;
 using MinesweeperWithSolver.ViewModels.Factories;
@@ -24,27 +28,73 @@ namespace MinesweeperWithSolver
         {
             IServiceCollection services = new ServiceCollection();
 
+            services.AddSingleton<DatabaseContext, DatabaseContext>();
             services.AddSingleton<IRootViewModelFactory, RootViewModelFactory>();
             services.AddSingleton<INavigator, Navigator>();
+            services.AddSingleton<Solver, Solver>();
+            services.AddSingleton<GameBoard, GameBoard>();
+            services.AddSingleton<Tile, Tile>();
+
+            services.AddSingleton<IDataService<BaseTable>, GenericDataService<BaseTable>>();
+            services.AddSingleton<IDataService<PlayedGame>, GenericDataService<PlayedGame>>();
+            services.AddSingleton<IDataService<Simulation>, GenericDataService<Simulation>>();
 
             services.AddSingleton<CreateViewModel<MenuViewModel>>(s =>
             {
-                return () => new MenuViewModel();
+                return () => new MenuViewModel(
+                    new ViewModelFactoryRenavigator<GameBoardViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<GameBoardViewModel>>()),
+                    new ViewModelFactoryRenavigator<SimulationViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<SimulationViewModel>>()),
+                    new ViewModelFactoryRenavigator<LeaderBoardViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<LeaderBoardViewModel>>()),
+                    s.GetRequiredService<GameBoard>());
             });
 
             services.AddSingleton<CreateViewModel<GameBoardViewModel>>(s =>
             {
-                return () => new GameBoardViewModel();
+                return () => new GameBoardViewModel(
+                    new ViewModelFactoryRenavigator<MenuViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<MenuViewModel>>()),
+                    s.GetRequiredService<GameBoard>(),
+                    s.GetRequiredService<Solver>());
             });
 
             services.AddSingleton<CreateViewModel<LeaderBoardViewModel>>(s =>
             {
-                return () => new LeaderBoardViewModel();
+                return () => new LeaderBoardViewModel(
+                    s.GetRequiredService<IDataService<PlayedGame>>(),
+                    new ViewModelFactoryRenavigator<MenuViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<MenuViewModel>>())
+                    );
             });
 
-            services.AddSingleton<CreateViewModel<EndScreenViewModel>>(s =>
+            services.AddSingleton<CreateViewModel<PrevSimulationsViewModel>>(s =>
             {
-                return () => new EndScreenViewModel();
+                return () => new PrevSimulationsViewModel(
+                    s.GetRequiredService<IDataService<Simulation>>(),
+                    new ViewModelFactoryRenavigator<SimulationViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<SimulationViewModel>>())
+                    );
+            });
+
+            services.AddSingleton<CreateViewModel<SimulationViewModel>>(s =>
+            {
+                return () => new SimulationViewModel(
+                    new ViewModelFactoryRenavigator<MenuViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<MenuViewModel>>()),
+                    new ViewModelFactoryRenavigator<PrevSimulationsViewModel>(
+                        s.GetRequiredService<INavigator>(),
+                        s.GetRequiredService<CreateViewModel<PrevSimulationsViewModel>>()),
+                    s.GetRequiredService<Solver>()
+                    );
             });
 
             services.AddScoped<MainWindowViewModel>();

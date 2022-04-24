@@ -3,10 +3,102 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:MinesweeperWithSolver.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             Width="{Binding Width}" MinWidth="{Binding Width}" MaxWidth="{Binding Width}"
+             Height="{Binding Height}" MinHeight="{Binding Height}" MaxHeight="{Binding Height}"
+             >
     <Grid>
-        <TextBlock>Board</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Height="100" Width="{Binding Width}" Background="White">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+
+                <Button Grid.Column="0" Grid.Row="0"
+                    Margin="5"
+                    Width="80" Height="30"
+                    Style="{StaticResource MaterialDesignRaisedButton}" 
+                    Background="IndianRed"
+                    materialDesign:ButtonAssist.CornerRadius="7"
+                    BorderThickness="0.1" 
+                    Foreground="White"
+                    Content="Back" ToolTip="Back"
+                    Command="{Binding Path=BackCommand}"
+                    x:Name="btnBack" 
+                    FontSize="14" FontFamily="Yu Gothic UI Semibold" />
+
+                <Button Grid.Column="0" Grid.Row="1"
+                    Margin="5"
+                    Width="80" Height="30"
+                    Style="{StaticResource MaterialDesignRaisedButton}" 
+                    Background="CornflowerBlue"
+                    materialDesign:ButtonAssist.CornerRadius="7"
+                    BorderThickness="0.1" 
+                    Foreground="White"
+                    Content="Restart" ToolTip="Restart"
+                    Command="{Binding Path=RestartCommand}"
+                    x:Name="btnRestart" 
+                    FontSize="14" FontFamily="Yu Gothic UI Semibold" />
+                
+                <StackPanel Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">
+                    <TextBlock 
+                           FontSize="12" FontFamily="Yu Gothic UI Semibold">
+                        Left Click - Reveal Tile
+                    </TextBlock>
+                    <TextBlock 
+                           FontSize="12" FontFamily="Yu Gothic UI Semibold">
+                        Right Click - Flag Tile
+                    </TextBlock>
+                </StackPanel>
+
+                <Button Grid.Column="2" Grid.Row="1"
+                    Margin="5"
+                    Width="80" Height="30"
+                    Style="{StaticResource MaterialDesignRaisedButton}" 
+                    Background="CornflowerBlue"
+                    materialDesign:ButtonAssist.CornerRadius="7"
+                    BorderThickness="0.1" 
+                    Foreground="White"
+                    Content="Solve" ToolTip="Solve"
+                    Command="{Binding Path=SolveCommand}"
+                    x:Name="btnSolve"
+                    FontSize="14" FontFamily="Yu Gothic UI Semibold" />
+
+            </Grid>
+        </Grid>
+        <ItemsControl x:Name="Tiles" ItemsSource="{Binding GameBoardTiles, Mode=OneWay, NotifyOnTargetUpdated=True}" Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                        <Button Width="30" Height="30"
+                                BorderThickness="0"
+                                Style="{x:Null}">
+                            <Image Source="{Binding Image}"/>
+                            <Button.InputBindings>
+                                    <MouseBinding Gesture="LeftClick" Command="{Binding ElementName=Tiles , Path=DataContext.RevealCommand}" CommandParameter="{Binding}"/>
+                                    <MouseBinding Gesture="RightClick" Command="{Binding ElementName=Tiles, Path=DataContext.FlagCommand}" CommandParameter="{Binding}"/>
+                            </Button.InputBindings>
+                        </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

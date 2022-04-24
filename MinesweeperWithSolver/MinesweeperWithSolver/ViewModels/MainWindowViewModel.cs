@@ -2,9 +2,6 @@
 using MinesweeperWithSolver.Enums;
 using MinesweeperWithSolver.State;
 using MinesweeperWithSolver.ViewModels.Factories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 
 namespace MinesweeperWithSolver.ViewModels

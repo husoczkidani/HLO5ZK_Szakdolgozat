@@ -6,8 +6,9 @@ namespace MinesweeperWithSolver.Enums
 {
     public enum SolverType
     {
-        SolverNO1,
-        SolverNO2,
-        SolverNO3
+        SPSRT,
+        SPSRNT,
+        SPSRCT,
+        SPS
     }
 }

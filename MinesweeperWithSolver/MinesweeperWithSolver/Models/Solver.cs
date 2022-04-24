@@ -62,13 +62,16 @@ namespace MinesweeperWithSolver.Models
                     {
                         switch (solverType)
                         {
-                            case SolverType.SolverNO1:
+                            case SolverType.SPSRT:
                                 GuessRandomTile();
                                 break;
-                            case SolverType.SolverNO2:
+                            case SolverType.SPSRNT:
                                 GuessRandomNeighboringTile();
                                 break;
-                            case SolverType.SolverNO3:
+                            case SolverType.SPSRCT:
+                                GuessRandomCornerTile();
+                                break;
+                            case SolverType.SPS:
                                 _gameBoard.Status = GameStatus.Failed;
                                 break;
                         }
@@ -156,6 +159,50 @@ namespace MinesweeperWithSolver.Models
             int guess = rand.Next(0, blankTilesWithNeighbors.Count() - 1);
             _gameBoard.RevealTile(blankTilesWithNeighbors[guess].X_pos, blankTilesWithNeighbors[guess].Y_pos);
 
+        }
+
+        private void GuessRandomCornerTile()
+        {
+            var cornerTiles = GetCornerTiles();
+
+            var blankCornerTiles = _gameBoard.Tiles
+                .Where(t => t.State != TileState.Revealed && !t.IsFlagged)
+                .Where(t => cornerTiles.Contains(t))
+                .ToList();
+            if (blankCornerTiles.Any())
+            {
+                Random rand = new Random();
+                int guess = rand.Next(0, blankCornerTiles.Count() - 1);
+                _gameBoard.RevealTile(blankCornerTiles[guess].X_pos, blankCornerTiles[guess].Y_pos);
+            }
+            else
+            {
+                GuessRandomTile();
+            }
+            
+        }
+
+        private IEnumerable<Tile> GetCornerTiles()
+        {
+            var cornerTiles = new List<Tile>();
+            cornerTiles.Add(
+                _gameBoard.Tiles
+                .Where(t => t.X_pos == 0 && t.Y_pos == 0)
+                .Single());
+            cornerTiles.Add(
+                _gameBoard.Tiles
+                .Where(t => t.X_pos == 0 && t.Y_pos == _gameBoard.Height - 1)
+                .Single());
+            cornerTiles.Add(
+                _gameBoard.Tiles
+                .Where(t => t.X_pos == 0 && t.Y_pos == _gameBoard.Width - 1)
+                .Single());
+            cornerTiles.Add(
+                 _gameBoard.Tiles
+                .Where(t => t.X_pos == _gameBoard.Height - 1 && t.Y_pos == _gameBoard.Width - 1)
+                .Single());
+
+            return cornerTiles;
         }
 
         private IEnumerable<Tile> GetTilesWithBlankNeighbors()

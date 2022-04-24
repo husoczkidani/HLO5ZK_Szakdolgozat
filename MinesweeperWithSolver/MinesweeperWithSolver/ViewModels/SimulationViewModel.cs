@@ -13,9 +13,10 @@ namespace MinesweeperWithSolver.ViewModels
                                 "-repeat the first two step, until there is no obvious\n mine or number tiles\n";
         //combo box 
         public SolverType[] PossibleSolverTypes => new SolverType[] {
-            SolverType.SolverNO1,
-            SolverType.SolverNO2,
-            SolverType.SolverNO3
+            SolverType.SPSRT,
+            SolverType.SPSRNT,
+            SolverType.SPSRCT,
+            SolverType.SPS
         };
 
         //Menu properties
@@ -30,7 +31,7 @@ namespace MinesweeperWithSolver.ViewModels
             }
         }
 
-        private SolverType _selectedSolver = SolverType.SolverNO1;
+        private SolverType _selectedSolver = SolverType.SPSRT;
         public SolverType SelectedSolver
         {
             get => _selectedSolver;
@@ -41,13 +42,18 @@ namespace MinesweeperWithSolver.ViewModels
                 
                 switch (SelectedSolver)
                 {
-                    case SolverType.SolverNO1:
+                    case SolverType.SPSRT:
                         SolverDesc = desc + "-guess a random blank tile, and start over again";
                         break;
-                    case SolverType.SolverNO2:
+                    case SolverType.SPSRNT:
                         SolverDesc = desc + "-guess a random blank tile that has a revealed\n number neighbor, and start over again";
                         break;
-                    case SolverType.SolverNO3:
+                    case SolverType.SPSRCT:
+                        SolverDesc = desc + "-guess a random blank corner tile,\n" +
+                                            " if there is no available corner tile, \n" +
+                                            "than guess a random blank tile and start over again";
+                        break;
+                    case SolverType.SPS:
                         SolverDesc = desc + "- set the game as failed";
                         break;
                 }

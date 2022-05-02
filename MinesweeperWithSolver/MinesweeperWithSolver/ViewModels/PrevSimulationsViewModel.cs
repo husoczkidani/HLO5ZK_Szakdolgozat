@@ -62,9 +62,10 @@ namespace MinesweeperWithSolver.ViewModels
         {
             return _dataService.GetAll()
                 .Where(g => g.Difficulty.Equals(difficulty))
-                .OrderByDescending(g => g.GamesSolved)
+                .OrderByDescending(g => (double)g.GamesSolved/(double)g.GamesPlayed)
                 .Take(10)
                 .ToList();
+            
         }
     }
 }
